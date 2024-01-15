@@ -34,8 +34,9 @@ async def on_message(message):
         )
 
         print(api_response)
-        if api_response.status_code == 200:
-            response = api_response
-            await message.channel.send(response.content.decode('utf-8'))
+        response_content = api_response.content.decode('utf-8')
+        if len(response_content) > 2000:
+            response_content = response_content[:2000]
+        await message.channel.send(response_content)
 
 client.run(os.getenv("DISCORD_TOKEN"))
