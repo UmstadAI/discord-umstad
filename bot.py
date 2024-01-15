@@ -10,8 +10,9 @@ intents.messages = True
 
 client = discord.Client(intents=intents)
 
-endpoint = "https://zkappsumstad.com/api/evalapi/interactions"
+endpoint = "https://zkappsumstad.com/api/evalapi/"
 
+api_key=os.getenv("OPENAI_API_KEY")
 
 @client.event
 async def on_ready():
@@ -28,16 +29,13 @@ async def on_message(message):
             endpoint,
             json={
                 "message": message.content,
-                "previevToken": os.getenv("OPENAI_API_KEY"),
+                "previewToken": api_key,
             },
         )
 
         print(api_response)
         if api_response.status_code == 200:
             response = api_response
-            print(response)
-            await message.channel.send(response)
-
-
+            await message.channel.send(response.content.decode('utf-8'))
 
 client.run(os.getenv("DISCORD_TOKEN"))
