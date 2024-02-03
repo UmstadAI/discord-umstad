@@ -48,7 +48,21 @@ async def on_message(message):
         command, *args = command_body.split(' ')
 
         if command == COMMAND:
-            await message.channel.send(args)
+            api_response = requests.post(
+            endpoint,
+            json={
+                "message": " ".join(args),
+                "previewToken": api_key,
+            },
+        )
+
+        print(api_response)
+        response_content = api_response.content.decode('utf-8')
+
+        # If it is turbo discord etc. remove if :D
+        if len(response_content) > 2000:
+            response_content = response_content[:2000]
+        await message.channel.send(response_content)
 
     if isinstance(message.channel, discord.DMChannel):
         api_response = requests.post(
