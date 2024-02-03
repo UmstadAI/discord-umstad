@@ -16,10 +16,27 @@ endpoint = "https://zkappsumstad.com/api/evalapi/"
 
 api_key=os.getenv("OPENAI_API_KEY")
 
+COMMAND_PREFIX = "!"
+COMMAND = "umstad"
+
 @client.event
 async def on_ready():
     await tree.sync(guild=discord.Object(id=1153348653122076673))
     print(f"We have logged in as {client.user}")
+
+@client.event
+async def on_message(message):
+    if message.author == client.user:
+        return
+    
+    if message.content.startswith(COMMAND_PREFIX):
+        command_body = message.content[len(COMMAND_PREFIX):].strip()
+        command, *args = command_body.split(' ')
+
+        print(command)
+
+        if command == COMMAND:
+            await message.channel.send("You triggered a command!")
 
 @tree.command(
     name="umstad",
@@ -28,6 +45,7 @@ async def on_ready():
 )
 async def on_command(interaction: discord.Interaction):
     await interaction.response.send_message("message")
+
 
 @client.event
 async def on_message(message):
