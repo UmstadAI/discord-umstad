@@ -8,35 +8,26 @@ load_dotenv(override=True)
 
 intents = discord.Intents.default()
 intents.messages = True
+intents.message_content = True
+
+COMMAND_PREFIX = "!"
+COMMAND = "umstad"
 
 client = discord.Client(intents=intents)
+
 tree = app_commands.CommandTree(client)
 
 endpoint = "https://zkappsumstad.com/api/evalapi/"
 
 api_key=os.getenv("OPENAI_API_KEY")
 
-COMMAND_PREFIX = "!"
-COMMAND = "umstad"
+
 
 @client.event
 async def on_ready():
     await tree.sync(guild=discord.Object(id=1153348653122076673))
     print(f"We have logged in as {client.user}")
 
-@client.event
-async def on_message(message):
-    if message.author == client.user:
-        return
-    
-    if message.content.startswith(COMMAND_PREFIX):
-        command_body = message.content[len(COMMAND_PREFIX):].strip()
-        command, *args = command_body.split(' ')
-
-        print(command)
-
-        if command == COMMAND:
-            await message.channel.send("You triggered a command!")
 
 @tree.command(
     name="umstad",
@@ -51,6 +42,13 @@ async def on_command(interaction: discord.Interaction):
 async def on_message(message):
     if message.author == client.user:
         return
+    
+    if message.content.startswith(COMMAND_PREFIX):
+        command_body = message.content[len(COMMAND_PREFIX):].strip()
+        command, *args = command_body.split(' ')
+
+        if command == COMMAND:
+            await message.channel.send(args)
 
     if isinstance(message.channel, discord.DMChannel):
         api_response = requests.post(
