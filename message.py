@@ -1,6 +1,6 @@
 import requests
 import discord
-from config import API_ENDPOINT, API_KEY
+from config import API_ENDPOINT, API_KEY, format_output
 
 
 async def handle_message(message):
@@ -11,4 +11,4 @@ async def handle_message(message):
 
         response_content = api_response.content.decode("utf-8")
 
-        await message.channel.send(response_content)
+        await message.channel.send(format_output(response_content))
