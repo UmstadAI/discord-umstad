@@ -1,6 +1,6 @@
 from discord import app_commands
 import requests
-from config import API_ENDPOINT, API_KEY, COMMAND, COMMAND_PREFIX
+from config import API_ENDPOINT, API_KEY, COMMAND, COMMAND_PREFIX, format_output
 
 
 async def handle_command(message):
@@ -16,4 +16,4 @@ async def handle_command(message):
 
             response_content = api_response.content.decode("utf-8")
 
-            await message.channel.send(response_content)
+            await message.channel.send(format_output(response_content))
