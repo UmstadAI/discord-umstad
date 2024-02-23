@@ -1,7 +1,6 @@
 import requests
 import discord
-from discord import app_commands
-from config import API_ENDPOINT, API_KEY, COMMAND, COMMAND_PREFIX
+from config import API_ENDPOINT, API_KEY
 
 
 async def handle_message(message):
