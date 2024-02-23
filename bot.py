@@ -1,6 +1,7 @@
 import discord
 import os
 import requests
+from commands import handle_command
 from dotenv import load_dotenv
 from discord import app_commands
 
@@ -42,22 +43,7 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    if message.content.startswith(COMMAND_PREFIX):
-        command_body = message.content[len(COMMAND_PREFIX) :].strip()
-        command, *args = command_body.split(" ")
-
-        if command == COMMAND:
-            api_response = requests.post(
-                endpoint, json={"message": " ".join(args), "previewToken": api_key,},
-            )
-
-        print(api_response)
-        response_content = api_response.content.decode("utf-8")
-
-        # If it is turbo discord etc. remove if :D
-        if len(response_content) > 2000:
-            response_content = response_content[:2000]
-        await message.channel.send(response_content)
+    await handle_command(message)
 
     if isinstance(message.channel, discord.DMChannel):
         api_response = requests.post(
@@ -67,9 +53,6 @@ async def on_message(message):
         print(api_response)
         response_content = api_response.content.decode("utf-8")
 
-        # If it is turbo discord etc. remove if :D
-        if len(response_content) > 2000:
-            response_content = response_content[:2000]
         await message.channel.send(response_content)
 
 
