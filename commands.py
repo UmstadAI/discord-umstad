@@ -14,7 +14,5 @@ async def handle_command(message):
             )
 
             response_content = api_response.content.decode("utf-8")
-            if len(response_content) > 2000:
-                response_content = response_content[:2000]
 
             await message.channel.send(response_content)
