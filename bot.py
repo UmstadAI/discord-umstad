@@ -27,6 +27,7 @@ async def on_ready():
     name="umstad", description="Call umstad Command", guild=discord.Object(id=GUILD_ID),
 )
 async def on_command(interaction: discord.Interaction):
+    # TODO!
     await interaction.response.send_message("message")
 
 
