@@ -1,5 +1,4 @@
 import discord
-import os
 from config import DISCORD_TOKEN, GUILD_ID
 from commands import handle_command
 from message import handle_message
@@ -39,4 +38,4 @@ async def on_message(message):
     await handle_message(message)
 
 
-client.run(os.getenv(DISCORD_TOKEN))
+client.run(DISCORD_TOKEN)

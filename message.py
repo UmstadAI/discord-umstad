@@ -10,7 +10,6 @@ async def handle_message(message):
             API_ENDPOINT, json={"message": message.content, "previewToken": API_KEY,},
         )
 
-        print(api_response)
         response_content = api_response.content.decode("utf-8")
 
         await message.channel.send(response_content)
