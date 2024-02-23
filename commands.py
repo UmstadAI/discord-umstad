@@ -1,4 +1,3 @@
-from discord import app_commands
 import requests
 from config import API_ENDPOINT, API_KEY, COMMAND, COMMAND_PREFIX, format_output
 
