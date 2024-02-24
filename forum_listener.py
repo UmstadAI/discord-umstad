@@ -1,4 +1,3 @@
-import discord
 import requests
 from config import API_ENDPOINT, API_KEY, FORUM_ID, format_output
 
