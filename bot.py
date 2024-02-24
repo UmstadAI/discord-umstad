@@ -42,8 +42,10 @@ async def on_message(message):
     await handle_message(message)
     await handle_search(message)
 
+
 @client.event
 async def on_thread_create(thread):
     await handle_thread_create(thread)
+
 
 client.run(DISCORD_TOKEN)

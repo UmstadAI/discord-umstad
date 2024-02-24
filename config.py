@@ -12,9 +12,9 @@ GUILD_ID = 1153348653122076673
 
 IS_TURBO = False
 
+
 def format_output(output):
     if not IS_TURBO:
         if len(output) > 2000:
             output = output[:2000]
     return output
-
