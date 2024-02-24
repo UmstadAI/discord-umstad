@@ -9,6 +9,7 @@ API_ENDPOINT = "https://zkappsumstad.com/api/discord/"
 API_KEY = os.getenv("OPENAI_API_KEY")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = 1153348653122076673
+FORUM_ID = 1154341442706231387
 
 IS_TURBO = False
 
