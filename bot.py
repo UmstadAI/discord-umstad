@@ -3,6 +3,7 @@ from config import DISCORD_TOKEN, GUILD_ID
 from search import handle_search
 from commands import handle_command
 from message import handle_message
+from forum_listener import handle_thread_create
 from dotenv import load_dotenv
 from discord import app_commands
 
@@ -11,6 +12,7 @@ load_dotenv(override=True)
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
+intents.guilds = True
 
 
 client = discord.Client(intents=intents)
@@ -40,5 +42,8 @@ async def on_message(message):
     await handle_message(message)
     await handle_search(message)
 
+@client.event
+async def on_thread_create(thread):
+    await handle_thread_create(thread)
 
 client.run(DISCORD_TOKEN)

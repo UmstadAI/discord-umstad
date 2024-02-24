@@ -1,1 +1,5 @@
-# Create Forum Thread Listener and throw request when a new thread pumped!
+import discord
+
+async def handle_thread_create(thread):
+    print(thread.name)
+    print(thread.last_message)
