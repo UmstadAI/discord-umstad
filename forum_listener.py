@@ -1,6 +1,6 @@
 import requests
 from config import API_ENDPOINT, API_KEY, FORUM_ID, TAG_NAME, format_output
-from .searcher_api.api import log
+from searcher_api.api import log
 
 
 async def handle_thread_create(thread):
