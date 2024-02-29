@@ -5,6 +5,7 @@ from config import (
     SEARCHER_API_ENDPOINT,
     API_KEY,
     SEARCHER_MESSAGE_TEMPLATE,
+    SEARCHER_DISCORD_TOKEN,
     format_output,
 )
 
@@ -30,3 +31,5 @@ async def on_message(message):
 
         response_content = api_response.content.decode("utf-8")
         await message.channel.send(format_output(response_content))
+
+client.run(SEARCHER_DISCORD_TOKEN)
