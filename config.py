@@ -6,13 +6,19 @@ load_dotenv(override=True)
 COMMAND_PREFIX = "!"
 COMMAND = "umstad"
 API_ENDPOINT = "https://zkappsumstad.com/api/discord/"
+SEARCHER_API_ENDPOINT = "https://zkappsumstad.com/api/searcher/"
+
 API_KEY = os.getenv("OPENAI_API_KEY")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 GUILD_ID = 1153348653122076673
 FORUM_ID = 1154341442706231387
-TAG_NAME = 'qa'
+TAG_NAME = "qa"
 
 IS_TURBO = False
+
+SEARCHER_MESSAGE_TEMPLATE = """
+Search with searcher tool.
+"""
 
 
 def format_output(output):

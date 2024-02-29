@@ -24,4 +24,3 @@ async def handle_thread_create(thread):
 
         # TODO GET AND SEND THREAD TO THE PREPROCESSED DB FOR SEARCHER BOT FOR PROCESSING
         log(message)
-

@@ -1,6 +1,6 @@
 import discord
 from config import DISCORD_TOKEN, GUILD_ID
-from search import handle_search
+from search_bot import handle_search
 from commands import handle_command
 from message import handle_message
 from forum_listener import handle_thread_create
@@ -40,7 +40,6 @@ async def on_message(message):
 
     await handle_command(message)
     await handle_message(message)
-    await handle_search(message)
 
 
 @client.event

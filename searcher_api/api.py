@@ -1,4 +1,5 @@
 import requests
+
 # UTILS API FOR SEARCHER FUNCTIONS
-async def log(x):
+async def send_recent_thread(x):
     print(x)
