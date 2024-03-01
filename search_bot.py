@@ -27,11 +27,12 @@ async def on_message(message):
             json={
                 "message": SEARCHER_MESSAGE_TEMPLATE + message.content,
                 "previewToken": API_KEY,
-                "authToken": AUTH_TOKEN
+                "authToken": AUTH_TOKEN,
             },
         )
 
         response_content = api_response.content.decode("utf-8")
         await message.channel.send(format_output(response_content))
+
 
 client.run(SEARCHER_DISCORD_TOKEN)

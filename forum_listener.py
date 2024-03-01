@@ -1,6 +1,5 @@
 import requests
 from config import API_ENDPOINT, API_KEY, FORUM_ID, TAG_NAME, AUTH_TOKEN, format_output
-from searcher_api.api import log
 
 
 async def handle_thread_create(thread):
@@ -13,7 +12,12 @@ async def handle_thread_create(thread):
             message = title + " " + content
 
             api_response = requests.post(
-                API_ENDPOINT, json={"message": message, "previewToken": API_KEY, "authToken": AUTH_TOKEN},
+                API_ENDPOINT,
+                json={
+                    "message": message,
+                    "previewToken": API_KEY,
+                    "authToken": AUTH_TOKEN,
+                },
             )
 
             response_content = api_response.content.decode("utf-8")
@@ -23,4 +27,3 @@ async def handle_thread_create(thread):
             pass
 
         # TODO GET AND SEND THREAD TO THE PREPROCESSED DB FOR SEARCHER BOT FOR PROCESSING
-        log(message)
