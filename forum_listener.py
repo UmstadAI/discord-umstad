@@ -1,5 +1,5 @@
 import requests
-from config import API_ENDPOINT, API_KEY, FORUM_ID, TAG_NAME, format_output
+from config import API_ENDPOINT, API_KEY, FORUM_ID, TAG_NAME, AUTH_TOKEN, format_output
 from searcher_api.api import log
 
 
@@ -13,7 +13,7 @@ async def handle_thread_create(thread):
             message = title + " " + content
 
             api_response = requests.post(
-                API_ENDPOINT, json={"message": message, "previewToken": API_KEY,},
+                API_ENDPOINT, json={"message": message, "previewToken": API_KEY, "authToken": AUTH_TOKEN},
             )
 
             response_content = api_response.content.decode("utf-8")

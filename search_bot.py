@@ -6,6 +6,7 @@ from config import (
     API_KEY,
     SEARCHER_MESSAGE_TEMPLATE,
     SEARCHER_DISCORD_TOKEN,
+    AUTH_TOKEN,
     format_output,
 )
 
@@ -26,6 +27,7 @@ async def on_message(message):
             json={
                 "message": SEARCHER_MESSAGE_TEMPLATE + message.content,
                 "previewToken": API_KEY,
+                "authToken": AUTH_TOKEN
             },
         )
 
