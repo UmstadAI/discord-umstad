@@ -5,8 +5,8 @@ from searcher_api.api import log
 
 async def handle_thread_create(thread):
     if thread.parent_id == FORUM_ID:
-        includes_qa_tag = any(tag.name == TAG_NAME for tag in thread.applied_tags)
-        if includes_qa_tag:
+        includes_tag = any(tag.name == TAG_NAME for tag in thread.applied_tags)
+        if includes_tag:
             await thread.fetch_message(thread.id)
             title = thread.name
             content = thread.starter_message.content
