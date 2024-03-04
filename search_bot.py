@@ -1,5 +1,6 @@
 import requests
 import discord
+from discord import app_commands
 
 from config import (
     SEARCHER_API_ENDPOINT,
@@ -7,6 +8,7 @@ from config import (
     SEARCHER_MESSAGE_TEMPLATE,
     SEARCHER_DISCORD_TOKEN,
     AUTH_TOKEN,
+    GUILD_ID,
     format_output,
 )
 
@@ -17,6 +19,12 @@ intents.guilds = True
 
 
 client = discord.Client(intents=intents)
+tree = app_commands.CommandTree(client)
+
+@client.event
+async def on_ready():
+    await tree.sync(guild=discord.Object(id=GUILD_ID))
+    print(f"We have logged in as searcher bot {client.user}")
 
 
 @client.event
