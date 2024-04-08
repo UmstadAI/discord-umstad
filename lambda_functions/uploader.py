@@ -21,4 +21,4 @@ client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY") or "OPENAI_API_KEY")
 index_name = "zkappumstad"
 model_name = "text-embedding-3-small"
 
-VECTOR_TYPE = 'search'
+VECTOR_TYPE = "search"

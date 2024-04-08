@@ -8,17 +8,15 @@
 
 import json
 
+
 def lambda_handler(event, context):
-    guild_id = event.get('guild_id')
-    thread_id = event.get('thread_id')
-    title = event.get('title')
-    message = event.get('message')
-    created_at = event.get('created_at')
-    owner = event.get('owner')
+    guild_id = event.get("guild_id")
+    thread_id = event.get("thread_id")
+    title = event.get("title")
+    message = event.get("message")
+    created_at = event.get("created_at")
+    owner = event.get("owner")
 
     # TODO: Process data
 
-    return {
-        'statusCode': 200,
-        'body': json.dumps('AWS Lambda got the thread')
-    }
+    return {"statusCode": 200, "body": json.dumps("AWS Lambda got the thread")}
