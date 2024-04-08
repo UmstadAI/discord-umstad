@@ -5,6 +5,7 @@ from config import (
     FORUM_ID,
     TAG_NAME,
     AUTH_TOKEN,
+    GUILD_ID,
     LAMBDA_THREAD_PROCESSOR_ENDPOINT,
     format_output,
 )
@@ -39,6 +40,7 @@ async def handle_thread_create(thread):
         lambda_response = requests.post(
             LAMBDA_THREAD_PROCESSOR_ENDPOINT,
             json={
+                "guild_id": GUILD_ID,
                 "thread_id": thread.id,
                 "title": title,
                 "message": message,
