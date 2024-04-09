@@ -14,6 +14,9 @@ class Event(BaseModel):
     created_at: str
     owner: str
 
+    def get(self, key, default=None):
+        return getattr(self, key, default)
+
 
 @app.get("/")
 def read_root():
@@ -21,7 +24,6 @@ def read_root():
 
 @app.post("/")
 def consume_process(event: Event):
-    print("WORKED")
     try:
         response = lambda_handler(event)
         return response

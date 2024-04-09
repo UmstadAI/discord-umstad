@@ -46,9 +46,7 @@ async def handle_thread_create(thread):
             "owner": str(thread.owner)
         }
 
-        print(payload)
         lambda_response = requests.post(
             LAMBDA_THREAD_PROCESSOR_ENDPOINT,
             json=payload
         )
-        print(lambda_response)

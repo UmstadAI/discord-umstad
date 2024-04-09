@@ -8,12 +8,9 @@
 
 import json
 
-class EventSimulator(dict):
-    def get(self, key, default=None):
-        return super().get(key, default)
 
-# ADD Context later for lambda function
 def lambda_handler(event, context=None):
+    print(type(event))
     guild_id = event.get("guild_id")
     thread_id = event.get("thread_id")
     title = event.get("title")
