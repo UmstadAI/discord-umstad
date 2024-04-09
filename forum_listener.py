@@ -37,14 +37,18 @@ async def handle_thread_create(thread):
         else:
             pass
 
+        payload = {
+            "guild_id": int(GUILD_ID),
+            "thread_id": int(thread.id),
+            "title": str(title),
+            "message": message,
+            "created_at": str(thread.created_at),
+            "owner": str(thread.owner)
+        }
+
+        print(payload)
         lambda_response = requests.post(
             LAMBDA_THREAD_PROCESSOR_ENDPOINT,
-            json={
-                "guild_id": GUILD_ID,
-                "thread_id": thread.id,
-                "title": title,
-                "message": message,
-                "created_at": thread.created_at,
-                "owner": thread.owner,
-            },
+            json=payload
         )
+        print(lambda_response)

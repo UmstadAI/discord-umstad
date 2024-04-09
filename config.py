@@ -7,7 +7,7 @@ COMMAND_PREFIX = "!"
 COMMAND = "umstad"
 API_ENDPOINT = "https://zkappsumstad.com/api/discord/"
 SEARCHER_API_ENDPOINT = "https://zkappsumstad.com/api/searcher/"
-LAMBDA_THREAD_PROCESSOR_ENDPOINT = ""
+LAMBDA_THREAD_PROCESSOR_ENDPOINT = "http://127.0.0.1:8000/"
 
 API_KEY = os.getenv("OPENAI_API_KEY")
 DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
