@@ -14,7 +14,10 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 SEARCHER_DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 AUTH_TOKEN = os.getenv("AUTH_TOKEN")
 
-DEMO_VECTOR_TYPE = "demo-searcher"
+DEMO_UNANSWERED_VECTOR_TYPE = "demo-search-unanswered"
+UNANSWERED_VECTOR_TYPE = "search-unanswered"
+
+DEMO_VECTOR_TYPE = "demo-search"
 VECTOR_TYPE = "search"
 
 GUILD_ID = 1153348653122076673
@@ -22,6 +25,7 @@ FORUM_ID = 1154341442706231387
 TAG_NAME = "qa"
 
 IS_TURBO = False
+IS_DEMO = True
 
 SEARCHER_MESSAGE_TEMPLATE = """
 Search with searcher tool.
