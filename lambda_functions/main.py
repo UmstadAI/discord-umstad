@@ -6,6 +6,7 @@ from process import lambda_handler
 
 app = FastAPI()
 
+
 class Event(BaseModel):
     guild_id: int
     thread_id: int
@@ -21,6 +22,7 @@ class Event(BaseModel):
 @app.get("/")
 def read_root():
     return {"Hello": "World"}
+
 
 @app.post("/")
 def consume_process(event: Event):

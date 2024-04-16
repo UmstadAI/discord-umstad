@@ -17,6 +17,7 @@ import re
 from uuid import uuid4
 from dotenv import load_dotenv, find_dotenv
 
+
 def lambda_handler(event, context=None):
     DEMO_UNANSWERED_VECTOR_TYPE = "demo-search-unanswered"
     UNANSWERED_VECTOR_TYPE = "search-unanswered"
@@ -53,8 +54,5 @@ def lambda_handler(event, context=None):
         vector_type = DEMO_UNANSWERED_VECTOR_TYPE
     else:
         vector_type = UNANSWERED_VECTOR_TYPE
-
-    
-
 
     return {"statusCode": 200, "body": json.dumps("AWS Lambda got the thread")}

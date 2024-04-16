@@ -5,7 +5,7 @@ import pinecone
 from uuid import uuid4
 from dotenv import load_dotenv, find_dotenv
 
-RESET_TYPE = 'search'
+RESET_TYPE = "search"
 
 _ = load_dotenv(find_dotenv(), override=True)
 
@@ -18,12 +18,12 @@ index_name = "zkappumstad"
 index = pinecone.Index(index_name)
 
 query_result = index.query(
-    "metadata.vector_type == {RESET_TYPE}",
-    include_metadata=True,
-    include_values=False
+    "metadata.vector_type == {RESET_TYPE}", include_metadata=True, include_values=False
 )
 
-ids_to_delete = [item.id for item in query_result if item.metadata['vector_type'] == 'search']
+ids_to_delete = [
+    item.id for item in query_result if item.metadata["vector_type"] == "search"
+]
 
 if ids_to_delete:
     index.delete(ids=ids_to_delete)
