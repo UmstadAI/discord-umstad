@@ -20,6 +20,7 @@ async def handle_thread_create(thread):
         title = thread.name
         content = thread.starter_message.content
         message = title + " " + content
+        message_id = thread.starter_message.id
 
         if includes_tag:
             api_response = requests.post(
@@ -42,6 +43,7 @@ async def handle_thread_create(thread):
             "thread_id": int(thread.id),
             "title": str(title),
             "message": message,
+            "message_id": str(message_id),
             "created_at": str(thread.created_at),
             "owner_id": str(thread.owner_id),
         }

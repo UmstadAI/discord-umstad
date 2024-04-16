@@ -12,6 +12,7 @@ class Event(BaseModel):
     thread_id: int
     title: str
     message: str
+    message_id: str
     created_at: str
     owner_id: str
 

@@ -30,6 +30,7 @@ def lambda_handler(event, context=None):
     thread_id = event.get("thread_id")
     title = event.get("title")
     message = event.get("message")
+    message_id = event.get("message_id")
     created_at = event.get("created_at")
     owner_id = event.get("owner_id")
 
@@ -37,23 +38,23 @@ def lambda_handler(event, context=None):
     date_object = parser.parse(created_at)
     created_at = date_object.timestamp()
 
-    thread_link = "https://discord.com/channels/{GUILD_ID}/{thread_id}"
-    message_link = thread_id + "/" + message_id #TODO: GET MESSAGE ID
+    thread_link = f"https://discord.com/channels/{guild_id}/{thread_id}"
+    message_link = f"{thread_link}/{message_id}"
     
     # LOG THE THREAD DATA
     print("Guild ID: ", guild_id)
     print("Thread ID:", thread_id)
     print("Title: ", title)
     print("Message: ", message)
+    print("Message ID: ", message_id)
     print("Created AT: ", created_at)
     print("Owner: ", owner_id)
-
-    _ = load_dotenv(find_dotenv(), override=True)  # read local .env file
 
     pinecone_api_key = os.getenv("PINECONE_API_KEY") or "YOUR_API_KEY"
     pinecone_env = os.getenv("PINECONE_ENVIRONMENT") or "YOUR_ENV"
 
-    pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
+    # init pinecone before the function
+    # pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
 
     client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY") or "OPENAI_API_KEY")
 
@@ -70,8 +71,11 @@ def lambda_handler(event, context=None):
         "thread_id": thread_id,
         "title": title,
         "message": message,
+        "message_id": message_id,
         "created_at": created_at,
         "owner_id": owner_id,
+        "thread_link": thread_link,
+        "message_link": message_link
     }
 
-    return {"statusCode": 200, "body": json.dumps("AWS Lambda got the thread")}
+    return {"statusCode": 200, "body": json.dumps(metadata)}
