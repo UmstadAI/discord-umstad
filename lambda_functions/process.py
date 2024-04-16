@@ -14,6 +14,9 @@ import pinecone
 import time
 import re
 
+from datetime import datetime
+from dateutil import parser
+
 from uuid import uuid4
 from dotenv import load_dotenv, find_dotenv
 
@@ -30,7 +33,14 @@ def lambda_handler(event, context=None):
     created_at = event.get("created_at")
     owner_id = event.get("owner_id")
 
-    # TODO: Process data and upload
+    # Process DATA and upload
+    date_object = parser.parse(created_at)
+    created_at = date_object.timestamp()
+
+    thread_link = "https://discord.com/channels/{GUILD_ID}/{thread_id}"
+    message_link = thread_id + "/" + message_id #TODO: GET MESSAGE ID
+    
+    # LOG THE THREAD DATA
     print("Guild ID: ", guild_id)
     print("Thread ID:", thread_id)
     print("Title: ", title)
@@ -54,5 +64,14 @@ def lambda_handler(event, context=None):
         vector_type = DEMO_UNANSWERED_VECTOR_TYPE
     else:
         vector_type = UNANSWERED_VECTOR_TYPE
+
+    metadata = {
+        "guild_id": guild_id,
+        "thread_id": thread_id,
+        "title": title,
+        "message": message,
+        "created_at": created_at,
+        "owner_id": owner_id,
+    }
 
     return {"statusCode": 200, "body": json.dumps("AWS Lambda got the thread")}
