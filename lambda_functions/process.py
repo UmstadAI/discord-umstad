@@ -54,5 +54,7 @@ def lambda_handler(event, context=None):
     else:
         vector_type = UNANSWERED_VECTOR_TYPE
 
+    
+
 
     return {"statusCode": 200, "body": json.dumps("AWS Lambda got the thread")}
