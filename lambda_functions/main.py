@@ -12,7 +12,7 @@ class Event(BaseModel):
     title: str
     message: str
     created_at: str
-    owner: str
+    owner_id: str
 
     def get(self, key, default=None):
         return getattr(self, key, default)

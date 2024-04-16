@@ -16,8 +16,16 @@ def lambda_handler(event, context=None):
     title = event.get("title")
     message = event.get("message")
     created_at = event.get("created_at")
-    owner = event.get("owner")
+    owner_id = event.get("owner_id")
 
     # TODO: Process data
+    print("Guild ID: ", guild_id)
+    print("Thread ID:", thread_id)
+    print("Title: ", title)
+    print("Message: ", message)
+    print("Created AT: ", created_at)
+    print("Owner: ", owner_id)
+
+    
 
     return {"statusCode": 200, "body": json.dumps("AWS Lambda got the thread")}

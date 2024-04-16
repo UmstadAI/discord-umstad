@@ -43,7 +43,7 @@ async def handle_thread_create(thread):
             "title": str(title),
             "message": message,
             "created_at": str(thread.created_at),
-            "owner": str(thread.owner)
+            "owner_id": str(thread.owner_id)
         }
 
         lambda_response = requests.post(
