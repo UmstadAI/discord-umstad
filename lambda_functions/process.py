@@ -40,7 +40,7 @@ def lambda_handler(event, context=None):
 
     thread_link = f"https://discord.com/channels/{guild_id}/{thread_id}"
     message_link = f"{thread_link}/{message_id}"
-    
+
     # LOG THE THREAD DATA
     print("Guild ID: ", guild_id)
     print("Thread ID:", thread_id)
@@ -75,7 +75,7 @@ def lambda_handler(event, context=None):
         "created_at": created_at,
         "owner_id": owner_id,
         "thread_link": thread_link,
-        "message_link": message_link
+        "message_link": message_link,
     }
 
     return {"statusCode": 200, "body": json.dumps(metadata)}
