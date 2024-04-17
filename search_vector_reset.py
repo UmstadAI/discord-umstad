@@ -22,15 +22,11 @@ index_name = "zkappumstad"
 index = pc.Index(index_name)
 
 query_response = index.query(
-    vector=random_vector,
-    filter={
-        "vector_type": RESET_TYPE
-    },
-    top_k=9999
+    vector=random_vector, filter={"vector_type": RESET_TYPE}, top_k=9999
 )
 
-matches = query_response['matches']
-ids = [i['id'] for i in matches]
+matches = query_response["matches"]
+ids = [i["id"] for i in matches]
 print(ids)
 delete_response = index.delete(ids=ids)
 
