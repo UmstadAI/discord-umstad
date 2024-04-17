@@ -9,16 +9,22 @@
 import json
 import glob
 import os
-import openai
-import pinecone
+from openai import OpenAI
 import time
 import re
 
+from pinecone import Pinecone, ServerlessSpec
 from datetime import datetime
 from dateutil import parser
 
 from uuid import uuid4
 from dotenv import load_dotenv, find_dotenv
+
+_ = load_dotenv(find_dotenv(), override=True)  # read local .env file
+
+pinecone_api_key = os.getenv("PINECONE_API_KEY") or "YOUR_API_KEY"
+pinecone_env = os.getenv("PINECONE_ENVIRONMENT") or "YOUR_ENV"
+openai_api_key = os.getenv("OPENAI_API_KEY")
 
 
 def lambda_handler(event, context=None):
@@ -50,23 +56,29 @@ def lambda_handler(event, context=None):
     print("Created AT: ", created_at)
     print("Owner: ", owner_id)
 
-    pinecone_api_key = os.getenv("PINECONE_API_KEY") or "YOUR_API_KEY"
-    pinecone_env = os.getenv("PINECONE_ENVIRONMENT") or "YOUR_ENV"
-
-    # init pinecone before the function
-    # pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
-
-    client = openai.OpenAI(api_key=os.getenv("OPENAI_API_KEY") or "OPENAI_API_KEY")
+    client = OpenAI(api_key=openai_api_key)
+    pc = Pinecone(api_key=pinecone_api_key)
 
     index_name = "zkappumstad"
     model_name = "text-embedding-3-small"
+
+    index = pc.Index(index_name)
 
     if IS_DEMO:
         vector_type = DEMO_UNANSWERED_VECTOR_TYPE
     else:
         vector_type = UNANSWERED_VECTOR_TYPE
 
+    vector_id = str(uuid4())
+    embedding_response = client.embeddings.create(
+        input= title + " " + message,
+        model="text-embedding-3-small"
+    )
+
+    embedding = embedding_response.data[0].embedding
+
     metadata = {
+        "vector_type": vector_type,
         "guild_id": guild_id,
         "thread_id": thread_id,
         "title": title,
@@ -78,4 +90,15 @@ def lambda_handler(event, context=None):
         "message_link": message_link,
     }
 
-    return {"statusCode": 200, "body": json.dumps(metadata)}
+    vector = {
+        "id": vector_id,
+        "values": embedding,
+        "metadata": metadata
+    }
+
+    response = index.upsert(
+        vectors = [vector]
+    )
+
+    print(response)
+    return {"statusCode": 200, "body": json.dumps(response)}
