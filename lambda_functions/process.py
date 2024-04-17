@@ -94,4 +94,4 @@ def lambda_handler(event, context=None):
     response = index.upsert(vectors=[vector])
 
     print(response)
-    return {"statusCode": 200, "body": json.dumps(response)}
+    return {"statusCode": 200, "body": json.dumps(metadata)}
