@@ -71,8 +71,7 @@ def lambda_handler(event, context=None):
 
     vector_id = str(uuid4())
     embedding_response = client.embeddings.create(
-        input= title + " " + message,
-        model="text-embedding-3-small"
+        input=title + " " + message, model="text-embedding-3-small"
     )
 
     embedding = embedding_response.data[0].embedding
@@ -90,15 +89,9 @@ def lambda_handler(event, context=None):
         "message_link": message_link,
     }
 
-    vector = {
-        "id": vector_id,
-        "values": embedding,
-        "metadata": metadata
-    }
+    vector = {"id": vector_id, "values": embedding, "metadata": metadata}
 
-    response = index.upsert(
-        vectors = [vector]
-    )
+    response = index.upsert(vectors=[vector])
 
     print(response)
     return {"statusCode": 200, "body": json.dumps(response)}

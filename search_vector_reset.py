@@ -1,6 +1,6 @@
 # DELETE SEARCH VECTORS, DEMO SEARCH VECTORS
 import os
-import pinecone
+from pinecone import Pinecone, ServerlessSpec
 
 from uuid import uuid4
 from dotenv import load_dotenv, find_dotenv
@@ -12,7 +12,7 @@ _ = load_dotenv(find_dotenv(), override=True)
 pinecone_api_key = os.getenv("PINECONE_API_KEY") or "YOUR_API_KEY"
 pinecone_env = os.getenv("PINECONE_ENVIRONMENT") or "YOUR_ENV"
 
-pinecone.init(api_key=pinecone_api_key, environment=pinecone_env)
+pc = Pinecone(api_key=pinecone_api_key)
 index_name = "zkappumstad"
 
 index = pinecone.Index(index_name)
