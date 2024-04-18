@@ -21,8 +21,8 @@ openai_api_key = os.getenv("OPENAI_API_KEY")
 
 
 def lambda_handler(event, context=None):
-    DEMO_UNANSWERED_VECTOR_TYPE = "demo-search-unanswered"
-    UNANSWERED_VECTOR_TYPE = "search-unanswered"
+    DEMO_VECTOR_TYPE = "demo-search"
+    VECTOR_TYPE = "search"
     IS_DEMO = True
 
     guild_id = event.get("guild_id")
@@ -58,9 +58,9 @@ def lambda_handler(event, context=None):
     index = pc.Index(index_name)
 
     if IS_DEMO:
-        vector_type = DEMO_UNANSWERED_VECTOR_TYPE
+        vector_type = DEMO_VECTOR_TYPE
     else:
-        vector_type = UNANSWERED_VECTOR_TYPE
+        vector_type = VECTOR_TYPE
 
     vector_id = str(uuid4())
     embedding_response = client.embeddings.create(

@@ -8,7 +8,7 @@ from dotenv import load_dotenv, find_dotenv
 dimensions = 1536
 random_vector = np.random.rand(dimensions).tolist()
 
-RESET_TYPE = "demo-search-unanswered"
+RESET_TYPE = "demo-search"
 
 _ = load_dotenv(find_dotenv(), override=True)
 

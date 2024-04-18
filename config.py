@@ -14,9 +14,6 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 SEARCHER_DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 AUTH_TOKEN = os.getenv("AUTH_TOKEN")
 
-DEMO_UNANSWERED_VECTOR_TYPE = "demo-search-unanswered"
-UNANSWERED_VECTOR_TYPE = "search-unanswered"
-
 DEMO_VECTOR_TYPE = "demo-search"
 VECTOR_TYPE = "search"
 
