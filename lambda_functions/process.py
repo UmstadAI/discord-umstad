@@ -1,20 +1,13 @@
-# Processor with OPENAI
-# DATA FORMAT WILL BE:
-# THREAD ID, THREAD OWNER, THREAD TITLE, THREAD MESSAGES
 # Example Thread Link: https://discord.com/channels/1153348653122076673/1213075628748709898
 # Guild ID + Thread ID
 # Example Message Link: https://discord.com/channels/1153348653122076673/1213072868175384587/1213084598603354172
 # Guild ID + Thread ID + Message ID
 
 import json
-import glob
 import os
 from openai import OpenAI
-import time
-import re
 
-from pinecone import Pinecone, ServerlessSpec
-from datetime import datetime
+from pinecone import Pinecone
 from dateutil import parser
 
 from uuid import uuid4
@@ -71,7 +64,7 @@ def lambda_handler(event, context=None):
 
     vector_id = str(uuid4())
     embedding_response = client.embeddings.create(
-        input=title + " " + message, model="text-embedding-3-small"
+        input=title + " " + message, model=model_name
     )
 
     embedding = embedding_response.data[0].embedding

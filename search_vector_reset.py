@@ -1,4 +1,3 @@
-# DELETE SEARCH VECTORS, DEMO SEARCH VECTORS
 import os
 import numpy as np
 from pinecone import Pinecone, ServerlessSpec
