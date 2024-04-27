@@ -27,9 +27,10 @@ async def on_ready():
     await tree.sync(guild=discord.Object(id=GUILD_ID))
     print(f"We have logged in as {client.user}")
 
+
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
-    
+
     await handle_tagged(message.channel)

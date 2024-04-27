@@ -1,9 +1,7 @@
 # Decision logic if the thread is solved!
 # TAGGED SOLVED or ?
-from config import (
-    FORUM_ID,
-    SOLVED_TAG
-)
+from config import FORUM_ID, SOLVED_TAG
+
 
 async def handle_tagged(thread):
     if thread.parent_id == FORUM_ID:

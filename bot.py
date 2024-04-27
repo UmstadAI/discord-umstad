@@ -1,6 +1,6 @@
 import discord
 from config import DISCORD_TOKEN, GUILD_ID
-from commands import handle_command
+from commands import handle_command, handle_slash_command
 from message import handle_message
 from forum_listener import handle_thread_create
 from dotenv import load_dotenv
@@ -27,8 +27,19 @@ async def on_ready():
 @tree.command(
     name="umstad", description="Call umstad Command", guild=discord.Object(id=GUILD_ID),
 )
-async def on_command(interaction: discord.Interaction):
-    # TODO!
+async def on_command(interaction: discord.Interaction, msg: str):
+    channel = interaction.channel
+
+    previous_messages = []
+    if channel and isinstance(channel, discord.TextChannel):
+        async for message in channel.history(limit=5):
+            chat_message = {message.author.name: message.content}
+            previous_messages.append(chat_message)
+        print(previous_messages)
+    else:
+        print("This command does not support the channel type.")
+
+    response = await handle_slash_command(msg, previous_messages)
     await interaction.response.send_message("message")
 
 
@@ -36,8 +47,8 @@ async def on_command(interaction: discord.Interaction):
 async def on_message(message):
     if message.author == client.user:
         return
-
-    await handle_command(message)
+    if message.content.startswith("!"):
+        await handle_command(message)
     await handle_message(message)
 
 
