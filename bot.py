@@ -35,12 +35,13 @@ async def on_command(interaction: discord.Interaction, msg: str):
         async for message in channel.history(limit=5):
             chat_message = {message.author.name: message.content}
             previous_messages.append(chat_message)
-        print(previous_messages)
     else:
         print("This command does not support the channel type.")
 
     response = await handle_slash_command(msg, previous_messages)
-    await interaction.response.send_message("message")
+
+    # !TODO Fix The application did not respond await for respond
+    await interaction.followup.send(response)
 
 
 @client.event

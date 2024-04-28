@@ -33,11 +33,16 @@ SLASH_PROMPT = "You see discord chat history, understand the problem and answer 
 
 
 async def handle_slash_command(msg, messages):
-    message_history = messages.reverse()
+    messages.reverse()
 
-    # MAKE message_history to readable string
+    history_str = ""
+    for message in messages:
+        for username, text in message.items():
+            history_str += f"{username}: {text}\n"
 
-    ai_request = SLASH_PROMPT + " " + message_history + " " + msg
+    print(history_str)
+
+    ai_request = SLASH_PROMPT + " " + history_str + " " + msg
 
     api_response = requests.post(
         API_ENDPOINT,
