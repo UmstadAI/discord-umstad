@@ -28,6 +28,7 @@ async def on_ready():
     name="umstad", description="Call umstad Command", guild=discord.Object(id=GUILD_ID),
 )
 async def on_command(interaction: discord.Interaction, msg: str):
+    await interaction.response.defer()
     channel = interaction.channel
 
     previous_messages = []
@@ -40,7 +41,6 @@ async def on_command(interaction: discord.Interaction, msg: str):
 
     response = await handle_slash_command(msg, previous_messages)
 
-    # !TODO Fix The application did not respond await for respond
     await interaction.followup.send(response)
 
 
