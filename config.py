@@ -26,6 +26,8 @@ SOLVED_TAG = "solved"
 IS_TURBO = False
 IS_DEMO = True
 
+IS_THREAD_PROCESSOR_DONE = False
+
 SEARCHER_MESSAGE_TEMPLATE = """
 Search with searcher tool.
 """

@@ -7,6 +7,7 @@ from config import (
     AUTH_TOKEN,
     GUILD_ID,
     LAMBDA_THREAD_PROCESSOR_ENDPOINT,
+    IS_THREAD_PROCESSOR_DONE,
     format_output,
 )
 
@@ -48,4 +49,5 @@ async def handle_thread_create(thread):
             "owner_id": str(thread.owner_id),
         }
 
-        lambda_response = requests.post(LAMBDA_THREAD_PROCESSOR_ENDPOINT, json=payload)
+        if IS_THREAD_PROCESSOR_DONE:
+            lambda_response = requests.post(LAMBDA_THREAD_PROCESSOR_ENDPOINT, json=payload)
