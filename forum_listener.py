@@ -50,4 +50,6 @@ async def handle_thread_create(thread):
         }
 
         if IS_THREAD_PROCESSOR_DONE:
-            lambda_response = requests.post(LAMBDA_THREAD_PROCESSOR_ENDPOINT, json=payload)
+            lambda_response = requests.post(
+                LAMBDA_THREAD_PROCESSOR_ENDPOINT, json=payload
+            )
