@@ -1,15 +1,30 @@
 # Decision logic if the thread is solved!
 # TAGGED SOLVED or ?
-from config import FORUM_ID, SOLVED_TAG
+from config import FORUM_ID, SOLVED_TAG, SOLVED_REACTION, AUTHORIZED_SOLVED_USERS
 
 
 async def handle_tagged(thread):
     if thread.parent_id == FORUM_ID:
         includes_tag = any(tag.name == SOLVED_TAG for tag in thread.applied_tags)
 
-        await thread.fetch_message(thread.id)
+        message = await thread.fetch_message(thread.id)
 
         title = thread.name
-        content = thread.starter_message.content
-        message = title + " " + content
-        message_id = thread.starter_message.id
+        content = message.content
+        message_content = title + " " + content
+        message_id = message.id
+
+async def handle_reacted(thread):
+    if thread.parent_id == FORUM_ID:
+        message = await thread.fetch_message(thread.id)
+        reacted_solved_users = []
+        for r in message.reactions:
+            if r.emoji == SOLVED_REACTION:
+                users = [reacted_solved_users.append(user) async for user in r.users()]
+
+        authorized_solved = any(user.id in AUTHORIZED_SOLVED_USERS for user in reacted_solved_users)
+        print(authorized_solved)
+
+        
+        
+

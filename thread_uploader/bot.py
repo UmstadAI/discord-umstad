@@ -3,12 +3,19 @@
 # Gets the thread data
 # Process the Data (with gpt or not?)
 # Upsert it to Vector DB
-
+import sys
 import discord
+import os 
+
+current = os.path.dirname(os.path.realpath(__file__))
+parent = os.path.dirname(current)
+sys.path.append(parent)
+ 
+
 from config import DISCORD_TOKEN, GUILD_ID
 from dotenv import load_dotenv
 from discord import app_commands
-from decide_if_solved import handle_tagged
+from decide_if_solved import handle_tagged, handle_reacted
 
 load_dotenv(override=True)
 
@@ -33,4 +40,8 @@ async def on_message(message):
     if message.author == client.user:
         return
 
-    await handle_tagged(message.channel)
+    thread = message.channel
+    await handle_reacted(thread)
+    await handle_tagged(thread)
+
+client.run(DISCORD_TOKEN)
