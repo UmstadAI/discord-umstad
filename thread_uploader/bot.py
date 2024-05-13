@@ -7,6 +7,8 @@
 ### https://schedule.readthedocs.io/en/stable/
 ### SEND to Lambda API toProcess and Upsert it via Lambda Functions
 
+## EXTRA: Process with gpt in other worker, and upsert into issue vector
+
 
 # Gets the thread data
 # Process the Data (not with gpt): Create actual processor also in lambda_functions
