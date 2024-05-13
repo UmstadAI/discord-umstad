@@ -1,8 +1,17 @@
 # Discord Bot has access a forum channel
-# Decide forum thread is answered or solved or closed(How to decide)
+# We will have already solved and archived threads, so this bot.py necessary only for recent threads
+
+# Decide forum thread is answered or solved with tag: decide_if_solved.py
+## We have tiny DB to store solved forum threads to prevent duplicates
+## Get Active threads once a day, If active thread solved and not in the TinyDB: 
+### https://schedule.readthedocs.io/en/stable/
+### SEND to Lambda API toProcess and Upsert it via Lambda Functions
+
+
 # Gets the thread data
-# Process the Data (with gpt or not?)
+# Process the Data (not with gpt): Create actual processor also in lambda_functions
 # Upsert it to Vector DB
+
 import sys
 import discord
 import os 
