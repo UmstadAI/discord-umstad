@@ -17,15 +17,21 @@
 import sys
 import discord
 import os 
+import time
+
+from tinydb import TinyDB, Query
+
+db = TinyDB('db.json')
 
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
  
 
-from config import DISCORD_TOKEN, GUILD_ID
+from config import DISCORD_TOKEN, GUILD_ID, FORUM_ID
 from dotenv import load_dotenv
 from discord import app_commands
+from discord.ext import commands, tasks
 from decide_if_solved import handle_tagged, handle_reacted
 
 load_dotenv(override=True)
@@ -44,6 +50,25 @@ tree = app_commands.CommandTree(client)
 async def on_ready():
     await tree.sync(guild=discord.Object(id=GUILD_ID))
     print(f"We have logged in as {client.user}")
+    scan.start()
+
+# Change it to 24 hours :)
+@tasks.loop(seconds=5)
+async def scan():
+    guild = discord.utils.get(client.guilds, id=GUILD_ID)
+    channel = discord.utils.get(guild.channels, id=FORUM_ID)
+
+    query = Query()
+    threads = await guild.active_threads()
+
+    stored_thread_ids = [item['id'] for item in db.all()]
+    filtered_threads = [thread for thread in threads if thread.parent_id == channel.id and thread.id not in stored_thread_ids]
+
+    for thread in filtered_threads:
+        print(f"Thread Name: {thread.name}, Thread ID: {thread.id}")
+        db.insert({'id': thread.id})
+
+
 
 
 @client.event
