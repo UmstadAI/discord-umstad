@@ -1,6 +1,13 @@
-# Decision logic if the thread is solved!
-# TAGGED SOLVED or ?
-from config import FORUM_ID, SOLVED_TAG, SOLVED_REACTION, AUTHORIZED_SOLVED_USERS
+import requests
+from config import (
+    FORUM_ID,
+    SOLVED_TAG,
+    SOLVED_REACTION,
+    AUTHORIZED_SOLVED_USERS,
+    LAMBDA_THREAD_PROCESSOR_ENDPOINT,
+    IS_THREAD_PROCESSOR_DONE,
+    GUILD_ID,
+)
 
 
 async def handle_tagged(thread):
@@ -13,6 +20,8 @@ async def handle_tagged(thread):
             content = message.content
             message_content = title + " " + content
             message_id = message.id
+
+            
 
             return True
 
