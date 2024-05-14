@@ -14,6 +14,7 @@ async def handle_tagged(thread):
         message_content = title + " " + content
         message_id = message.id
 
+
 async def handle_reacted(thread):
     if thread.parent_id == FORUM_ID:
         message = await thread.fetch_message(thread.id)
@@ -22,9 +23,7 @@ async def handle_reacted(thread):
             if r.emoji == SOLVED_REACTION:
                 users = [reacted_solved_users.append(user) async for user in r.users()]
 
-        authorized_solved = any(user.id in AUTHORIZED_SOLVED_USERS for user in reacted_solved_users)
+        authorized_solved = any(
+            user.id in AUTHORIZED_SOLVED_USERS for user in reacted_solved_users
+        )
         print(authorized_solved)
-
-        
-        
-

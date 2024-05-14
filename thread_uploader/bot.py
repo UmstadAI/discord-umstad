@@ -3,7 +3,7 @@
 
 # Decide forum thread is answered or solved with tag: decide_if_solved.py
 ## We have tiny DB to store solved forum threads to prevent duplicates
-## Get Active threads once a day, If active thread solved and not in the TinyDB: 
+## Get Active threads once a day, If active thread solved and not in the TinyDB:
 ### https://schedule.readthedocs.io/en/stable/
 ### SEND to Lambda API toProcess and Upsert it via Lambda Functions
 
@@ -16,17 +16,17 @@
 
 import sys
 import discord
-import os 
+import os
 import time
 
 from tinydb import TinyDB, Query
 
-db = TinyDB('db.json')
+db = TinyDB("db.json")
 
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
 sys.path.append(parent)
- 
+
 
 from config import DISCORD_TOKEN, GUILD_ID, FORUM_ID
 from dotenv import load_dotenv
@@ -52,6 +52,7 @@ async def on_ready():
     print(f"We have logged in as {client.user}")
     scan.start()
 
+
 # Change it to 24 hours :)
 @tasks.loop(seconds=5)
 async def scan():
@@ -61,14 +62,16 @@ async def scan():
     query = Query()
     threads = await guild.active_threads()
 
-    stored_thread_ids = [item['id'] for item in db.all()]
-    filtered_threads = [thread for thread in threads if thread.parent_id == channel.id and thread.id not in stored_thread_ids]
+    stored_thread_ids = [item["id"] for item in db.all()]
+    filtered_threads = [
+        thread
+        for thread in threads
+        if thread.parent_id == channel.id and thread.id not in stored_thread_ids
+    ]
 
     for thread in filtered_threads:
         print(f"Thread Name: {thread.name}, Thread ID: {thread.id}")
-        db.insert({'id': thread.id})
-
-
+        db.insert({"id": thread.id})
 
 
 @client.event
@@ -79,5 +82,6 @@ async def on_message(message):
     thread = message.channel
     await handle_reacted(thread)
     await handle_tagged(thread)
+
 
 client.run(DISCORD_TOKEN)
