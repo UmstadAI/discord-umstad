@@ -5,6 +5,8 @@ from process import lambda_handler
 
 app = FastAPI()
 
+# uvicorn main:app --host 127.0.0.1 --port 8000
+
 
 class Event(BaseModel):
     guild_id: int
