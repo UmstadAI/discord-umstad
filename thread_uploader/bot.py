@@ -76,8 +76,6 @@ async def scan():
             print("Inserted", thread.id)
 
 
-
-
 @client.event
 async def on_message(message):
     if message.author == client.user:

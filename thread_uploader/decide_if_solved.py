@@ -14,7 +14,6 @@ async def handle_tagged(thread):
             message_content = title + " " + content
             message_id = message.id
 
-            print("Solvedmis:" , thread.id)
             return True
 
 
