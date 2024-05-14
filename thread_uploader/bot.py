@@ -70,18 +70,18 @@ async def scan():
     ]
 
     for thread in filtered_threads:
-        print(f"Thread Name: {thread.name}, Thread ID: {thread.id}")
-        db.insert({"id": thread.id})
+        posted = await handle_tagged(thread)
+        if posted:
+            db.insert({"id": thread.id})
+            print("Inserted", thread.id)
+
+
 
 
 @client.event
 async def on_message(message):
     if message.author == client.user:
         return
-
-    thread = message.channel
-    await handle_reacted(thread)
-    await handle_tagged(thread)
 
 
 client.run(DISCORD_TOKEN)

@@ -6,13 +6,16 @@ from config import FORUM_ID, SOLVED_TAG, SOLVED_REACTION, AUTHORIZED_SOLVED_USER
 async def handle_tagged(thread):
     if thread.parent_id == FORUM_ID:
         includes_tag = any(tag.name == SOLVED_TAG for tag in thread.applied_tags)
+        if includes_tag:
+            message = await thread.fetch_message(thread.id)
 
-        message = await thread.fetch_message(thread.id)
+            title = thread.name
+            content = message.content
+            message_content = title + " " + content
+            message_id = message.id
 
-        title = thread.name
-        content = message.content
-        message_content = title + " " + content
-        message_id = message.id
+            print("Solvedmis:" , thread.id)
+            return True
 
 
 async def handle_reacted(thread):
