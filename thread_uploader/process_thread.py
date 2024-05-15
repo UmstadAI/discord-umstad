@@ -11,7 +11,6 @@ async def process_thread(thread):
     print("Processing: ", thread)
 
     # Return it
-    payload_thread = {}
 
     guild_id = int(GUILD_ID)
     thread_id = int(thread.id),
@@ -19,7 +18,6 @@ async def process_thread(thread):
     messages = []
     created_at = str(thread.created_at)
     owner_id = str(thread.owner_id)
-
 
     async for message in thread.history(limit=100):
         message_id = message.id
@@ -33,5 +31,23 @@ async def process_thread(thread):
         }
 
         messages.append(message)
+
+    messages.reverse()
     
-    print(messages)
+    formatted_messages = "\n".join(
+        f"Message ID: {msg['Message ID']}, Author: {msg['Author']}, Message: {msg['Message Content']}" 
+        for msg in messages
+    )
+
+    payload_thread = {
+        "guild_id": guild_id,
+        "thread_id": thread_id,
+        "title": title,
+        "messages": messages,
+        "created_at": created_at,
+        "owner_id": owner_id,
+    }
+
+    print(payload_thread)
+
+
