@@ -25,7 +25,6 @@ async def handle_tagged(thread):
         includes_tag = any(tag.name == SOLVED_TAG for tag in thread.applied_tags)
         if includes_tag:
             payload = await process_thread(thread)
-            # TODO!: Send API REQ WITH payload
 
             return True
 

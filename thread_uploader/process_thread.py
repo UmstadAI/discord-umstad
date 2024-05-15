@@ -2,16 +2,10 @@
 # TODO!: Add API to main.py for also processed threads
 
 from config import (
-    FORUM_ID,
     GUILD_ID,
 )
 
-
 async def process_thread(thread):
-    print("Processing: ", thread)
-
-    # Return it
-
     guild_id = int(GUILD_ID)
     thread_id = int(thread.id)
     title = str(thread.name)
@@ -34,7 +28,7 @@ async def process_thread(thread):
 
     messages.reverse()
     
-    formatted_messages = "\n".join(
+    formatted_messages = "\n ".join(
         f"Message ID: {msg['Message ID']}, Author: {msg['Author']}, Message: {msg['Message Content']}" 
         for msg in messages
     )
@@ -49,5 +43,6 @@ async def process_thread(thread):
     }
 
     print(payload_thread)
+    return payload_thread
 
 
