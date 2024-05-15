@@ -13,7 +13,7 @@ async def process_thread(thread):
     # Return it
 
     guild_id = int(GUILD_ID)
-    thread_id = int(thread.id),
+    thread_id = int(thread.id)
     title = str(thread.name)
     messages = []
     created_at = str(thread.created_at)
