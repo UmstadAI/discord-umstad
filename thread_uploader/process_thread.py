@@ -43,7 +43,7 @@ async def process_thread(thread):
         "guild_id": guild_id,
         "thread_id": thread_id,
         "title": title,
-        "messages": messages,
+        "messages": formatted_messages,
         "created_at": created_at,
         "owner_id": owner_id,
     }
