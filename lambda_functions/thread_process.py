@@ -20,4 +20,4 @@ pinecone_env = os.getenv("PINECONE_ENVIRONMENT") or "YOUR_ENV"
 openai_api_key = os.getenv("OPENAI_API_KEY")
 
 def thread_lambda_handler(event, context=None):
-    pass
+    return {"statusCode": 200, "body": json.dumps("WORKINGGGGG")}

@@ -26,8 +26,12 @@ async def handle_tagged(thread):
         if includes_tag:
             payload = await process_thread(thread)
 
-            # SEND PAYLOAD TO API
-            return True
+            if IS_THREAD_PROCESSOR_DONE:
+                lambda_response = requests.post(
+                    LAMBDA_THREAD_PROCESSOR_ENDPOINT, json=payload
+                )
+                
+                return True
 
 
 async def handle_reacted(thread):

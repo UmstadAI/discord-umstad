@@ -18,9 +18,15 @@ class Event(BaseModel):
     created_at: str
     owner_id: str
 
+    def get(self, key, default=None):
+        return getattr(self, key, default)
+
     @validator('message', 'messages', pre=True, always=True)
-    def check_not_both(cls, v, values, field):
-        if 'message' in values and 'messages' in values:
+    def check_not_both(cls, v, values, **kwargs):
+        message_present = 'message' in values and values['message'] is not None
+        messages_present = 'messages' in values and values['messages'] is not None
+
+        if message_present and messages_present:
             raise ValueError("Both 'message' and 'messages' cannot be provided simultaneously.")
         return v
 
@@ -38,4 +44,5 @@ def consume_process(event: Event):
             response = lambda_handler(event)
         return response
     except Exception as e:
+        print(e)
         raise HTTPException(status_code=500, detail=str(e))
