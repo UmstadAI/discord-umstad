@@ -26,6 +26,7 @@ async def handle_tagged(thread):
         if includes_tag:
             payload = await process_thread(thread)
 
+            # SEND PAYLOAD TO API
             return True
 
 
