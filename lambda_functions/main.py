@@ -1,6 +1,6 @@
 from typing import Union
 from fastapi import FastAPI, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, validator
 from process import lambda_handler
 from thread_process import thread_lambda_handler
 
@@ -12,24 +12,17 @@ class Event(BaseModel):
     guild_id: int
     thread_id: int
     title: str
-    message: str
-    message_id: str
+    message: Union[str, None] = None
+    messages: Union[str, None] = None
+    message_id: Union[str, None] = None
     created_at: str
     owner_id: str
 
-    def get(self, key, default=None):
-        return getattr(self, key, default)
-
-class ThreadEvent(BaseModel):
-    guild_id: int
-    thread_id: int
-    title: str
-    messages: str
-    created_at: str
-    owner_id: str
-
-    def get(self, key, default=None):
-        return getattr(self, key, default)
+    @validator('message', 'messages', pre=True, always=True)
+    def check_not_both(cls, v, values, field):
+        if 'message' in values and 'messages' in values:
+            raise ValueError("Both 'message' and 'messages' cannot be provided simultaneously.")
+        return v
 
 @app.get("/")
 def read_root():
@@ -39,15 +32,10 @@ def read_root():
 @app.post("/")
 def consume_process(event: Event):
     try:
-        response = lambda_handler(event)
-        return response
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-@app.post("/thread")
-def consume_thread_process(event: ThreadEvent):
-    try:
-        response = thread_lambda_handler(event)
+        if event.messages:
+            response = thread_lambda_handler(event)
+        else:
+            response = lambda_handler(event)
         return response
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
