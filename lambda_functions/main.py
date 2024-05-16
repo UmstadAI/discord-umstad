@@ -8,6 +8,7 @@ app = FastAPI()
 
 # uvicorn main:app --host 127.0.0.1 --port 8000
 
+
 class Event(BaseModel):
     guild_id: int
     thread_id: int
@@ -21,14 +22,17 @@ class Event(BaseModel):
     def get(self, key, default=None):
         return getattr(self, key, default)
 
-    @validator('message', 'messages', pre=True, always=True)
+    @validator("message", "messages", pre=True, always=True)
     def check_not_both(cls, v, values, **kwargs):
-        message_present = 'message' in values and values['message'] is not None
-        messages_present = 'messages' in values and values['messages'] is not None
+        message_present = "message" in values and values["message"] is not None
+        messages_present = "messages" in values and values["messages"] is not None
 
         if message_present and messages_present:
-            raise ValueError("Both 'message' and 'messages' cannot be provided simultaneously.")
+            raise ValueError(
+                "Both 'message' and 'messages' cannot be provided simultaneously."
+            )
         return v
+
 
 @app.get("/")
 def read_root():

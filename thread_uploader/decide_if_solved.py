@@ -30,8 +30,11 @@ async def handle_tagged(thread):
                 lambda_response = requests.post(
                     LAMBDA_THREAD_PROCESSOR_ENDPOINT, json=payload
                 )
-                
-                return True
+
+                print(lambda_response)
+
+                if lambda_response.status_code == 200:
+                    return True
 
 
 async def handle_reacted(thread):

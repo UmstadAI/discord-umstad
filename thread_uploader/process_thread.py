@@ -1,9 +1,8 @@
 # TODO!: Process thread with all messages and ids etc.
 # TODO!: Add API to main.py for also processed threads
 
-from config import (
-    GUILD_ID,
-)
+from config import GUILD_ID
+
 
 async def process_thread(thread):
     guild_id = int(GUILD_ID)
@@ -21,15 +20,15 @@ async def process_thread(thread):
         message = {
             "Message ID": message_id,
             "Author": author,
-            "Message Content": content
+            "Message Content": content,
         }
 
         messages.append(message)
 
     messages.reverse()
-    
+
     formatted_messages = "\n ".join(
-        f"Message ID: {msg['Message ID']}, Author: {msg['Author']}, Message: {msg['Message Content']}" 
+        f"Message ID: {msg['Message ID']}, Author: {msg['Author']}, Message: {msg['Message Content']}"
         for msg in messages
     )
 
@@ -44,5 +43,3 @@ async def process_thread(thread):
 
     print(payload_thread)
     return payload_thread
-
-
