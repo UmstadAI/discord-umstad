@@ -6,7 +6,7 @@ load_dotenv(override=True)
 COMMAND_PREFIX = "!"
 COMMAND = "umstad"
 API_ENDPOINT = "https://zkappsumstad.com/api/discord/"
-SEARCHER_API_ENDPOINT = "https://zkappsumstad.com/api/demosearcher/"
+SEARCHER_API_ENDPOINT = "https://zkappsumstad.com/api/demosearch/"
 LAMBDA_THREAD_PROCESSOR_ENDPOINT = "http://127.0.0.1:8000/"
 
 API_KEY = os.getenv("OPENAI_API_KEY")

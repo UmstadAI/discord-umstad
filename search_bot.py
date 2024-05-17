@@ -31,6 +31,8 @@ async def on_ready():
 @client.event
 async def on_message(message):
     if isinstance(message.channel, discord.DMChannel):
+        if message.author == client.user:
+            return
         api_response = requests.post(
             SEARCHER_API_ENDPOINT,
             json={
