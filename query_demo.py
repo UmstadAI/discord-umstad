@@ -21,7 +21,10 @@ index_name = "zkappumstad"
 index = pc.Index(index_name)
 
 query_response = index.query(
-    vector=random_vector, filter={"vector_type": QUERY_TYPE}, top_k=9999, include_metadata=True
+    vector=random_vector,
+    filter={"vector_type": QUERY_TYPE},
+    top_k=9999,
+    include_metadata=True,
 )
 
 print(query_response)

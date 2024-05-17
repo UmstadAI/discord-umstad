@@ -28,18 +28,19 @@ async def on_ready():
     print(f"We have logged in as searcher bot {client.user}")
 
 
-active_users = set() 
+active_users = set()
+
 
 @client.event
 async def on_message(message):
     if isinstance(message.channel, discord.DMChannel):
         if message.author == client.user:
             return
-        
+
         if message.author.id in active_users:
             await message.channel.send("Please wait for the previous response.")
             return
-        
+
         active_users.add(message.author.id)
 
         api_response = requests.post(
