@@ -6,7 +6,7 @@ load_dotenv(override=True)
 COMMAND_PREFIX = "!"
 COMMAND = "umstad"
 API_ENDPOINT = "https://zkappsumstad.com/api/discord/"
-SEARCHER_API_ENDPOINT = "https://zkappsumstad.com/api/searcher/"
+SEARCHER_API_ENDPOINT = "https://zkappsumstad.com/api/demosearcher/"
 LAMBDA_THREAD_PROCESSOR_ENDPOINT = "http://127.0.0.1:8000/"
 
 API_KEY = os.getenv("OPENAI_API_KEY")
@@ -31,7 +31,7 @@ IS_DEMO = True
 IS_THREAD_PROCESSOR_DONE = True
 
 SEARCHER_MESSAGE_TEMPLATE = """
-Search with searcher tool.
+Search with demo searcher tool.
 """
 
 
