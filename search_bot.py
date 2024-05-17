@@ -41,7 +41,7 @@ async def on_message(message):
                 "authToken": AUTH_TOKEN,
             },
         )
-
+        
         response_content = api_response.content.decode("utf-8")
         await message.channel.send(format_output(response_content))
 
