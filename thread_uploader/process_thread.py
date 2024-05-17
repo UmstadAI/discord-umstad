@@ -2,8 +2,8 @@ from config import GUILD_ID
 
 
 async def process_thread(thread):
-    guild_id = int(GUILD_ID)
-    thread_id = int(thread.id)
+    guild_id = str(GUILD_ID)
+    thread_id = str(thread.id)
     title = str(thread.name)
     messages = []
     created_at = str(thread.created_at)

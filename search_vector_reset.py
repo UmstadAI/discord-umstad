@@ -1,6 +1,6 @@
 import os
 import numpy as np
-from pinecone import Pinecone, ServerlessSpec
+from pinecone import Pinecone
 
 from uuid import uuid4
 from dotenv import load_dotenv, find_dotenv

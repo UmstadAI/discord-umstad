@@ -10,8 +10,8 @@ app = FastAPI()
 
 
 class Event(BaseModel):
-    guild_id: int
-    thread_id: int
+    guild_id: str
+    thread_id: str
     title: str
     message: Union[str, None] = None
     messages: Union[str, None] = None

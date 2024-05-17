@@ -28,11 +28,20 @@ async def on_ready():
     print(f"We have logged in as searcher bot {client.user}")
 
 
+active_users = set() 
+
 @client.event
 async def on_message(message):
     if isinstance(message.channel, discord.DMChannel):
         if message.author == client.user:
             return
+        
+        if message.author.id in active_users:
+            await message.channel.send("Please wait for the previous response.")
+            return
+        
+        active_users.add(message.author.id)
+
         api_response = requests.post(
             SEARCHER_API_ENDPOINT,
             json={
@@ -41,9 +50,11 @@ async def on_message(message):
                 "authToken": AUTH_TOKEN,
             },
         )
-        
+
         response_content = api_response.content.decode("utf-8")
+
         await message.channel.send(format_output(response_content))
+        active_users.remove(message.author.id)
 
 
 client.run(SEARCHER_DISCORD_TOKEN)

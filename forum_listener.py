@@ -40,8 +40,8 @@ async def handle_thread_create(thread):
             pass
 
         payload = {
-            "guild_id": int(GUILD_ID),
-            "thread_id": int(thread.id),
+            "guild_id": str(GUILD_ID),
+            "thread_id": str(thread.id),
             "title": str(title),
             "message": message,
             "message_id": str(message_id),
