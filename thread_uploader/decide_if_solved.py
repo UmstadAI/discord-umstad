@@ -1,6 +1,5 @@
 import requests
 import sys
-import discord
 import os
 
 current = os.path.dirname(os.path.realpath(__file__))
@@ -16,7 +15,6 @@ from config import (
     AUTHORIZED_SOLVED_USERS,
     LAMBDA_THREAD_PROCESSOR_ENDPOINT,
     IS_THREAD_PROCESSOR_DONE,
-    GUILD_ID,
 )
 
 
@@ -48,4 +46,5 @@ async def handle_reacted(thread):
         authorized_solved = any(
             user.id in AUTHORIZED_SOLVED_USERS for user in reacted_solved_users
         )
+
         print(authorized_solved)
