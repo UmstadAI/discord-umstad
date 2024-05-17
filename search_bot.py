@@ -28,7 +28,7 @@ async def on_ready():
     print(f"We have logged in as searcher bot {client.user}")
 
 
-active_users = set()
+processing_users = set()
 
 
 @client.event
@@ -37,25 +37,30 @@ async def on_message(message):
         if message.author == client.user:
             return
 
-        if message.author.id in active_users:
-            await message.channel.send("Please wait for the previous response.")
+        user_id = message.author.id
+        if user_id in processing_users:
+            await message.channel.send(
+                "Please wait until I respond to your previous message."
+            )
             return
 
-        active_users.add(message.author.id)
+        processing_users.add(user_id)
 
-        api_response = requests.post(
-            SEARCHER_API_ENDPOINT,
-            json={
-                "message": SEARCHER_MESSAGE_TEMPLATE + message.content,
-                "previewToken": API_KEY,
-                "authToken": AUTH_TOKEN,
-            },
-        )
+        try:
+            api_response = requests.post(
+                SEARCHER_API_ENDPOINT,
+                json={
+                    "message": SEARCHER_MESSAGE_TEMPLATE + message.content,
+                    "previewToken": API_KEY,
+                    "authToken": AUTH_TOKEN,
+                },
+            )
 
-        response_content = api_response.content.decode("utf-8")
+            response_content = api_response.content.decode("utf-8")
+            await message.channel.send(format_output(response_content))
 
-        await message.channel.send(format_output(response_content))
-        active_users.remove(message.author.id)
+        finally:
+            processing_users.remove(user_id)
 
 
 client.run(SEARCHER_DISCORD_TOKEN)
