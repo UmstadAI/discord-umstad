@@ -32,8 +32,8 @@ async def on_command(interaction: discord.Interaction, msg: str):
     channel = interaction.channel
 
     previous_messages = []
-    if channel and isinstance(channel, discord.TextChannel):
-        async for message in channel.history(limit=5):
+    if channel:
+        async for message in channel.history(limit=100):
             chat_message = {message.author.name: message.content}
             previous_messages.append(chat_message)
     else:

@@ -29,7 +29,7 @@ async def handle_command(message):
             await message.channel.send(format_output(response_content))
 
 
-SLASH_PROMPT = "You see discord chat history, understand the problem and answer it"
+SLASH_PROMPT = "You see discord chat history, understand the problem and answer it. MAX 1500 Character"
 
 
 async def handle_slash_command(msg, messages):
