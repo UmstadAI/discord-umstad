@@ -11,4 +11,41 @@ A Discord Bot which uses zkApp Umstad infrastructure. Supports, helps users in M
 
 **Searcher Functionality:**  Umstad bot can query the Vector DB and find related threads and answer with their information(thread IDs, thread titles) etc.
 
+## Setup
+
+Create .env file in the root folder:
+```
+DISCORD_TOKEN=XXXXXXXX
+OPENAI_API_KEY=XXXXXXXX
+AUTH_TOKEN=XXXXXXXXX
+
+PINECONE_API_KEY=XXXXXXXXXXX
+PINECONE_ENVIRONMENT=XXXXXXXXX
+```
+
+Discord bot must have write and read permissions.
+
+## Usage & Bots
+
+#### Umstad Bot
+```bot.py``` in the root folder. Uses ```commands.py```, ```message.py``` and ```forum_listener.py```
+
+- Slash Command with getting previous messages.
+- Command prefix _!umstad_ can call the bot.
+- Can be used with DM.
+- It listens recently created threads, if AI Support is needed, answers. Posts threads to api named lambda functions, currently FAST API.
+
+#### Search Bot
+It is an AI Search Engine, which gets threads from Pinecone Vector DB which are uploaded by thread uploader and lambda functions.
+
+#### Thread Uploader Bot
+In ```thread_uploader/bot.py```,
+- Scans the forum channel 
+- If these threads are not in tiny db, 
+- Decides if active threads are solved. 
+- Uses ```process_thread.py``` and post the thread data to lambda uploader.
+
+
+
+
 
