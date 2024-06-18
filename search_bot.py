@@ -1,4 +1,4 @@
-import requests
+import aiohttp
 import discord
 from discord import app_commands
 
@@ -16,7 +16,6 @@ intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
 intents.guilds = True
-
 
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
@@ -47,18 +46,18 @@ async def on_message(message):
         processing_users.add(user_id)
 
         try:
-            api_response = requests.post(
-                SEARCHER_API_ENDPOINT,
-                json={
-                    "message": SEARCHER_MESSAGE_TEMPLATE + message.content,
-                    "previewToken": API_KEY,
-                    "authToken": AUTH_TOKEN,
-                },
-            )
-            print(api_response)
-            response_content = api_response.content.decode("utf-8")
-            print(response_content)
-            await message.channel.send(format_output(response_content))
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    SEARCHER_API_ENDPOINT,
+                    json={
+                        "message": SEARCHER_MESSAGE_TEMPLATE + message.content,
+                        "previewToken": API_KEY,
+                        "authToken": AUTH_TOKEN,
+                    },
+                ) as response:
+                    response_content = await response.text()
+                    print(response_content)
+                    await message.channel.send(format_output(response_content))
 
         finally:
             processing_users.remove(user_id)
