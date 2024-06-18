@@ -1,4 +1,4 @@
-import requests
+import aiohttp
 from config import (
     API_ENDPOINT,
     API_KEY,
@@ -24,16 +24,16 @@ async def handle_thread_create(thread):
         message_id = thread.starter_message.id
 
         if includes_tag:
-            api_response = requests.post(
-                API_ENDPOINT,
-                json={
-                    "message": message,
-                    "previewToken": API_KEY,
-                    "authToken": AUTH_TOKEN,
-                },
-            )
-
-            response_content = api_response.content.decode("utf-8")
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    API_ENDPOINT,
+                    json={
+                        "message": message,
+                        "previewToken": API_KEY,
+                        "authToken": AUTH_TOKEN,
+                    },
+                ) as response:
+                    response_content = await response.text()
 
             await thread.send(format_output(response_content))
         else:
