@@ -6,6 +6,7 @@ import discord
 import asyncio
 import os
 import sys
+import json
 
 current = os.path.dirname(os.path.realpath(__file__))
 parent = os.path.dirname(current)
@@ -14,9 +15,6 @@ sys.path.append(parent)
 
 from process_thread import process_thread
 from config import (
-    SEARCHER_API_ENDPOINT,
-    API_KEY,
-    SEARCHER_MESSAGE_TEMPLATE,
     DISCORD_TOKEN,
     GUILD_ID,
     FORUM_CHANNEL_ID,
@@ -56,6 +54,7 @@ async def on_ready():
             payload = await process_thread(thread)
             payloads.append(payload)
 
-    print(payloads)
+    with open('payloads.json', 'w') as f:
+        json.dump(payloads, f, indent=4)
 
 client.run(DISCORD_TOKEN)
