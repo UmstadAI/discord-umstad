@@ -23,6 +23,13 @@ DEMO_VECTOR_TYPE = "demo-search"
 VECTOR_TYPE = "search"
 IS_DEMO = True
 
+vectors = []
+index_name = "zkappumstad"
+model_name = "text-embedding-3-small"
+pc = Pinecone(api_key=pinecone_api_key)
+
+index = pc.Index(index_name)
+
 def process(payload):
     guild_id = payload.get("guild_id")
     thread_id = payload.get("thread_id")
@@ -38,12 +45,8 @@ def process(payload):
     thread_link = f"https://discord.com/channels/{guild_id}/{thread_id}"
 
     client = OpenAI(api_key=openai_api_key)
-    pc = Pinecone(api_key=pinecone_api_key)
 
-    index_name = "zkappumstad"
     model_name = "text-embedding-3-small"
-
-    index = pc.Index(index_name)
 
     if IS_DEMO:
         vector_type = DEMO_VECTOR_TYPE
@@ -68,21 +71,28 @@ def process(payload):
         "thread_link": thread_link,
     }
 
-    vector = {"id": vector_id, "values": embedding, "metadata": metadata}
+    vector = (vector_id, embedding, metadata)
+    vectors.append(vector)
 
-    response = index.upsert(vectors=[vector])
+    return True
 
-    print(response)
-    return {"statusCode": 200, "body": json.dumps(metadata)}
+    
 
 with open('payloads.json', 'r') as file:
     data = json.load(file)
 
 for item in data:
     response = process(item)
-    if response.get("statusCode") == 200:
-        print(item, "Succesfully upserted")
+    if response:
+        print(item, "Succesfully appended to Vectors array")
     else:
         continue
+
+for i in range(0, len(vectors), 100):
+    batch = vectors[i : i + 100]
+    print("Upserting batch:", i)
+    response = index.upsert(batch)
+    print(response)
+
 
 
