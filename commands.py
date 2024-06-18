@@ -1,4 +1,4 @@
-import requests
+import aiohttp
 from config import (
     API_ENDPOINT,
     API_KEY,
@@ -15,16 +15,16 @@ async def handle_command(message):
         command, *args = command_body.split(" ")
 
         if command == COMMAND:
-            api_response = requests.post(
-                API_ENDPOINT,
-                json={
-                    "message": " ".join(args),
-                    "previewToken": API_KEY,
-                    "authToken": AUTH_TOKEN,
-                },
-            )
-
-            response_content = api_response.content.decode("utf-8")
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    API_ENDPOINT,
+                    json={
+                        "message": " ".join(args),
+                        "previewToken": API_KEY,
+                        "authToken": AUTH_TOKEN,
+                    },
+                ) as response:
+                    response_content = await response.text()
 
             await message.channel.send(format_output(response_content))
 
@@ -44,11 +44,16 @@ async def handle_slash_command(msg, messages):
 
     ai_request = SLASH_PROMPT + " " + history_str + " " + msg
 
-    api_response = requests.post(
-        API_ENDPOINT,
-        json={"message": ai_request, "previewToken": API_KEY, "authToken": AUTH_TOKEN,},
-    )
+    async with aiohttp.ClientSession() as session:
+        async with session.post(
+            API_ENDPOINT,
+            json={
+                "message": ai_request,
+                "previewToken": API_KEY,
+                "authToken": AUTH_TOKEN,
+            },
+        ) as response:
+            response_content = await response.text()
 
-    response_content = api_response.content.decode("utf-8")
 
     return response_content

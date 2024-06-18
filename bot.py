@@ -27,13 +27,13 @@ async def on_ready():
 @tree.command(
     name="umstad", description="Call umstad Command", guild=discord.Object(id=GUILD_ID),
 )
-async def on_command(interaction: discord.Interaction, msg: str):
+async def on_command(interaction: discord.Interaction, msg: str, message_number: int):
     await interaction.response.defer()
     channel = interaction.channel
 
     previous_messages = []
     if channel:
-        async for message in channel.history(limit=100):
+        async for message in channel.history(limit=message_number):
             chat_message = {message.author.name: message.content}
             previous_messages.append(chat_message)
     else:
