@@ -30,7 +30,7 @@ Discord bot must have write and read permissions.
 #### Umstad Bot
 ```bot.py``` in the root folder. Uses ```commands.py```, ```message.py``` and ```forum_listener.py```
 
-- Slash Command with getting previous messages.
+- Slash Command with getting previous messages with number.
 - Command prefix _!umstad_ can call the bot.
 - Can be used with DM.
 - It listens recently created threads, if AI Support is needed, answers. Posts threads to api named lambda functions, currently FAST API.
