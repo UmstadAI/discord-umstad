@@ -44,8 +44,3 @@ In ```thread_uploader/bot.py```,
 - If these threads are not in tiny db, 
 - Decides if active threads are solved. 
 - Uses ```process_thread.py``` and post the thread data to lambda uploader.
-
-
-
-
-
