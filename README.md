@@ -37,6 +37,7 @@ Discord bot must have write and read permissions.
 
 #### Search Bot
 It is an AI Search Engine, which gets threads from Pinecone Vector DB which are uploaded by thread uploader and lambda functions.
+Uses demo-search vector or search vector.
 
 #### Thread Uploader Bot
 In ```thread_uploader/bot.py```,
@@ -44,3 +45,7 @@ In ```thread_uploader/bot.py```,
 - If these threads are not in tiny db, 
 - Decides if active threads are solved. 
 - Uses ```process_thread.py``` and post the thread data to lambda uploader.
+
+#### Archived Getter and Uploader
+In ```thread_uploader/archived_getter.py``` and ```archived_uploader.py```
+- Gets archived threads and export them as ```payloads.json``` process and upload them to vector db.
