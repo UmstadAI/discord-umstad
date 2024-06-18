@@ -33,6 +33,8 @@ IS_THREAD_PROCESSOR_DONE = False
 
 SEARCHER_MESSAGE_TEMPLATE = """
 Search with demo searcher tool.
+If you can't fetch data from demo search tool. Please do not send unrelated content.
+Your message must not contain more than 1500 Character.
 """
 
 
