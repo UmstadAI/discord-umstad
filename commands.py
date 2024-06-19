@@ -55,5 +55,4 @@ async def handle_slash_command(msg, messages):
         ) as response:
             response_content = await response.text()
 
-
     return response_content

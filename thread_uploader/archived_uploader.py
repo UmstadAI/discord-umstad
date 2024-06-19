@@ -30,6 +30,7 @@ pc = Pinecone(api_key=pinecone_api_key)
 
 index = pc.Index(index_name)
 
+
 def process(payload):
     guild_id = payload.get("guild_id")
     thread_id = payload.get("thread_id")
@@ -38,7 +39,7 @@ def process(payload):
     created_at = payload.get("created_at")
     owner_id = payload.get("owner_id")
 
-     # Process DATA and upload
+    # Process DATA and upload
     date_object = parser.parse(created_at)
     created_at = date_object.timestamp()
 
@@ -76,9 +77,8 @@ def process(payload):
 
     return True
 
-    
 
-with open('payloads.json', 'r') as file:
+with open("payloads.json", "r") as file:
     data = json.load(file)
 
 for item in data:
@@ -93,6 +93,3 @@ for i in range(0, len(vectors), 100):
     print("Upserting batch:", i)
     response = index.upsert(batch)
     print(response)
-
-
-

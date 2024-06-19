@@ -1,4 +1,4 @@
-# Get threads
+#  Get threads
 # Process with process_thread
 # Upsert them with batches.
 
@@ -33,19 +33,20 @@ intents.guilds = True
 
 client = discord.Client(intents=intents)
 
+
 @client.event
 async def on_ready():
-    print(f'Logged in as {client.user}')
+    print(f"Logged in as {client.user}")
 
     guild = discord.utils.get(client.guilds, id=GUILD_ID)
     channel = discord.utils.get(client.get_all_channels(), id=FORUM_CHANNEL_ID)
 
     if guild is None or channel is None:
-        print('Guild or Channel not found')
+        print("Guild or Channel not found")
         return
 
     channel_threads: AsyncIterator = channel.archived_threads(limit=None)
-    archived_threads: list[discord.Thread] = [ t async for t in channel_threads ]
+    archived_threads: list[discord.Thread] = [t async for t in channel_threads]
 
     payloads = []
 
@@ -54,7 +55,8 @@ async def on_ready():
             payload = await process_thread(thread)
             payloads.append(payload)
 
-    with open('payloads.json', 'w') as f:
+    with open("payloads.json", "w") as f:
         json.dump(payloads, f, indent=4)
+
 
 client.run(DISCORD_TOKEN)
