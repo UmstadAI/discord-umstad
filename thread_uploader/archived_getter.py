@@ -46,7 +46,7 @@ async def on_ready():
         logging.error("Guild or Channel not found")
         return
 
-    semaphore = asyncio.Semaphore(10)  # Limit concurrent tasks
+    semaphore = asyncio.Semaphore(10)
     payloads = []
 
     async def process_and_collect(thread):
