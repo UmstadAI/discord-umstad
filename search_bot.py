@@ -57,7 +57,12 @@ async def on_message(message):
                 ) as response:
                     response_content = await response.text()
                     print(response_content)
-                    await message.channel.send(format_output(response_content))
+
+                    if len(response_content) > 2000:
+                        for i in range(0, len(response_content), 2000):
+                            await message.channel.send(format_output(response_content[i:i+2000]))
+                    else:
+                        await message.channel.send(format_output(response_content))
 
         finally:
             processing_users.remove(user_id)
