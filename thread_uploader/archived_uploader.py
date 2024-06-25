@@ -1,15 +1,8 @@
-# Example Thread Link: https://discord.com/channels/1153348653122076673/1213075628748709898
-# Guild ID + Thread ID
-# Example Message Link: https://discord.com/channels/1153348653122076673/1213072868175384587/1213084598603354172
-# Guild ID + Thread ID + Message ID
-
 import json
 import os
 from openai import OpenAI
-
 from pinecone import Pinecone
 from dateutil import parser
-
 from uuid import uuid4
 from dotenv import load_dotenv, find_dotenv
 
@@ -30,6 +23,27 @@ pc = Pinecone(api_key=pinecone_api_key)
 
 index = pc.Index(index_name)
 
+MAX_TOKENS = 8000  # Max tokens to stay under the limit
+
+def chunk_messages(messages, max_tokens):
+    chunks = []
+    current_chunk = ""
+    current_length = 0
+
+    for message in messages.split():
+        message_length = len(message)
+        if current_length + message_length > max_tokens:
+            chunks.append(current_chunk.strip())
+            current_chunk = message + " "
+            current_length = message_length
+        else:
+            current_chunk += message + " "
+            current_length += message_length
+
+    if current_chunk:
+        chunks.append(current_chunk.strip())
+
+    return chunks
 
 def process(payload):
     guild_id = payload.get("guild_id")
@@ -55,28 +69,31 @@ def process(payload):
         vector_type = VECTOR_TYPE
 
     vector_id = str(uuid4())
-    embedding_response = client.embeddings.create(
-        input=title + " " + messages, model=model_name
-    )
+    
+    message_chunks = chunk_messages(messages, MAX_TOKENS - len(title))
+    
+    for chunk in message_chunks:
+        embedding_response = client.embeddings.create(
+            input=title + " " + chunk, model=model_name
+        )
 
-    embedding = embedding_response.data[0].embedding
+        embedding = embedding_response.data[0].embedding
 
-    metadata = {
-        "vector_type": vector_type,
-        "guild_id": guild_id,
-        "thread_id": thread_id,
-        "title": title,
-        "messages": messages,
-        "created_at": created_at,
-        "owner_id": owner_id,
-        "thread_link": thread_link,
-    }
+        metadata = {
+            "vector_type": vector_type,
+            "guild_id": guild_id,
+            "thread_id": thread_id,
+            "title": title,
+            "messages": chunk,
+            "created_at": created_at,
+            "owner_id": owner_id,
+            "thread_link": thread_link,
+        }
 
-    vector = (vector_id, embedding, metadata)
-    vectors.append(vector)
+        vector = (vector_id, embedding, metadata)
+        vectors.append(vector)
 
     return True
-
 
 with open("payloads.json", "r") as file:
     data = json.load(file)
@@ -84,7 +101,7 @@ with open("payloads.json", "r") as file:
 for item in data:
     response = process(item)
     if response:
-        print(item, "Succesfully appended to Vectors array")
+        print(item, "Successfully appended to Vectors array")
     else:
         continue
 
