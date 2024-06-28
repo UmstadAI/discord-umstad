@@ -1,7 +1,8 @@
 import json
 import os
 from openai import OpenAI
-from pinecone import Pinecone
+from pinecone.grpc import PineconeGRPC as Pinecone
+from pinecone import ServerlessSpec
 from dateutil import parser
 from uuid import uuid4
 from dotenv import load_dotenv, find_dotenv
@@ -17,9 +18,22 @@ VECTOR_TYPE = "search"
 IS_DEMO = True
 
 vectors = []
-index_name = "zkappumstad"
+index_name = "discord-umstad"
 model_name = "text-embedding-3-small"
 pc = Pinecone(api_key=pinecone_api_key)
+
+pc.delete_index(index_name)
+
+pc.create_index(
+  name="discord-umstad",
+  dimension=1536,
+  metric="cosine",
+  spec=ServerlessSpec(
+    cloud="aws",
+    region="us-east-1"
+  )
+)
+print(f"{index_name} created")
 
 index = pc.Index(index_name)
 

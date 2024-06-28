@@ -16,7 +16,7 @@ pinecone_api_key = os.getenv("PINECONE_API_KEY") or "YOUR_API_KEY"
 pinecone_env = os.getenv("PINECONE_ENVIRONMENT") or "YOUR_ENV"
 
 pc = Pinecone(api_key=pinecone_api_key)
-index_name = "zkappumstad"
+index_name = "discord-umstad"
 
 index = pc.Index(index_name)
 
