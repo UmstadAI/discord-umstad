@@ -23,7 +23,7 @@ pc = Pinecone(api_key=pinecone_api_key)
 
 index = pc.Index(index_name)
 
-MAX_TOKENS = 8000  # Max tokens to stay under the limit
+MAX_TOKENS = 4000  # Max tokens to stay under the limit
 
 def chunk_messages(messages, max_tokens):
     chunks = []
