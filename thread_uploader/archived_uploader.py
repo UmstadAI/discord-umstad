@@ -18,26 +18,14 @@ VECTOR_TYPE = "search"
 IS_DEMO = True
 
 vectors = []
-index_name = "discord-umstad"
+index_name = "zkappumstad"
 model_name = "text-embedding-3-small"
 pc = Pinecone(api_key=pinecone_api_key)
-
-pc.delete_index(index_name)
-
-pc.create_index(
-  name="discord-umstad",
-  dimension=1536,
-  metric="cosine",
-  spec=ServerlessSpec(
-    cloud="aws",
-    region="us-east-1"
-  )
-)
-print(f"{index_name} created")
 
 index = pc.Index(index_name)
 
 MAX_TOKENS = 4000  # Max tokens to stay under the limit
+counter = 0
 
 def chunk_messages(messages, max_tokens):
     chunks = []
@@ -60,6 +48,8 @@ def chunk_messages(messages, max_tokens):
     return chunks
 
 def process(payload):
+    global counter
+
     guild_id = payload.get("guild_id")
     thread_id = payload.get("thread_id")
     title = payload.get("title")
@@ -81,8 +71,6 @@ def process(payload):
         vector_type = DEMO_VECTOR_TYPE
     else:
         vector_type = VECTOR_TYPE
-
-    vector_id = str(uuid4())
     
     message_chunks = chunk_messages(messages, MAX_TOKENS - len(title))
     
@@ -104,8 +92,12 @@ def process(payload):
             "thread_link": thread_link,
         }
 
+        vector_id = str(uuid4())
+
         vector = (vector_id, embedding, metadata)
         vectors.append(vector)
+
+        counter += 1
 
     return True
 
@@ -124,3 +116,6 @@ for i in range(0, len(vectors), 100):
     print("Upserting batch:", i)
     response = index.upsert(batch)
     print(response)
+
+print(counter)
+print(len(vectors))
