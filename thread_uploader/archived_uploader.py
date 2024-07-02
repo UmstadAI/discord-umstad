@@ -27,24 +27,18 @@ index = pc.Index(index_name)
 MAX_TOKENS = 4000  # Max tokens to stay under the limit
 counter = 0
 
+from langchain_experimental.text_splitter import SemanticChunker
+from langchain_openai.embeddings import OpenAIEmbeddings
+
+text_splitter = SemanticChunker(OpenAIEmbeddings())
+
 def chunk_messages(messages, max_tokens):
     chunks = []
-    current_chunk = ""
-    current_length = 0
 
-    for message in messages.split():
-        message_length = len(message)
-        if current_length + message_length > max_tokens:
-            chunks.append(current_chunk.strip())
-            current_chunk = message + " "
-            current_length = message_length
-        else:
-            current_chunk += message + " "
-            current_length += message_length
-
-    if current_chunk:
-        chunks.append(current_chunk.strip())
-
+    docs = text_splitter.create_documents([messages])
+    for i in range(len(docs)):
+        chunks.append(docs[i].page_content)
+        
     return chunks
 
 def process(payload):
@@ -107,7 +101,7 @@ with open("payloads.json", "r") as file:
 for item in data:
     response = process(item)
     if response:
-        print(item, "Successfully appended to Vectors array")
+        print("Successfully appended to Vectors array")
     else:
         continue
 
