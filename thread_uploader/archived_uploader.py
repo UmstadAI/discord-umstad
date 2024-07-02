@@ -32,13 +32,13 @@ from langchain_openai.embeddings import OpenAIEmbeddings
 
 text_splitter = SemanticChunker(OpenAIEmbeddings())
 
-def chunk_messages(messages, max_tokens):
+def chunk_messages(messages):
     chunks = []
 
     docs = text_splitter.create_documents([messages])
     for i in range(len(docs)):
         chunks.append(docs[i].page_content)
-        
+
     return chunks
 
 def process(payload):
@@ -66,7 +66,7 @@ def process(payload):
     else:
         vector_type = VECTOR_TYPE
     
-    message_chunks = chunk_messages(messages, MAX_TOKENS - len(title))
+    message_chunks = chunk_messages(messages)
     
     for chunk in message_chunks:
         embedding_response = client.embeddings.create(
