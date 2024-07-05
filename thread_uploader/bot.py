@@ -28,7 +28,7 @@ parent = os.path.dirname(current)
 sys.path.append(parent)
 
 
-from config import DISCORD_TOKEN, GUILD_ID, FORUM_ID
+from config import THERAD_UPLOADER_DISCORD_TOKEN, GUILD_ID, FORUM_ID
 from dotenv import load_dotenv
 from discord import app_commands
 from discord.ext import commands, tasks
@@ -82,4 +82,4 @@ async def on_message(message):
         return
 
 
-client.run(DISCORD_TOKEN)
+client.run(THERAD_UPLOADER_DISCORD_TOKEN)

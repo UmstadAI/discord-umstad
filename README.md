@@ -16,6 +16,9 @@ A Discord Bot which uses zkApp Umstad infrastructure. Supports, helps users in M
 Create .env file in the root folder:
 ```
 DISCORD_TOKEN=XXXXXXXX
+SEARCHER_DISCORD_TOKEN=XXXXXXXXXX
+THREAD_UPLOADER_DISCORD_TOKEN=XXXXXXXXXXXX
+
 OPENAI_API_KEY=XXXXXXXX
 AUTH_TOKEN=XXXXXXXXX
 
