@@ -104,10 +104,10 @@ def process(payload):
 with open("payloads.json", "r") as file:
     data = json.load(file)
 
-for item in data:
+for i, item in enumerate(data):
     response = process(item)
     if response:
-        print("Successfully appended to Vectors array")
+        print(f"Successfully appended to Vectors array at index {i}")
     else:
         continue
 
