@@ -50,6 +50,9 @@ async def handle_thread_create(thread):
         }
 
         if IS_THREAD_PROCESSOR_DONE:
-            lambda_response = requests.post(
-                LAMBDA_THREAD_PROCESSOR_ENDPOINT, json=payload
-            )
+            async with aiohttp.ClientSession() as session:
+                async with session.post(
+                    LAMBDA_THREAD_PROCESSOR_ENDPOINT,
+                    json=payload
+                ) as lambda_response:
+                    lambda_response_content = await lambda_response.text()
