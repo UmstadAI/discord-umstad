@@ -29,8 +29,14 @@ counter = 0
 
 from langchain_experimental.text_splitter import SemanticChunker
 from langchain_openai.embeddings import OpenAIEmbeddings
+from langchain_text_splitters import RecursiveCharacterTextSplitter
 
-text_splitter = SemanticChunker(OpenAIEmbeddings())
+text_splitter = RecursiveCharacterTextSplitter(
+    chunk_size=250,
+    chunk_overlap=50,
+    length_function=len,
+    is_separator_regex=False,
+)
 
 def chunk_messages(messages):
     chunks = []
