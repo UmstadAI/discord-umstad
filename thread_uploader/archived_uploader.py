@@ -32,8 +32,8 @@ from langchain_openai.embeddings import OpenAIEmbeddings
 from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 text_splitter = RecursiveCharacterTextSplitter(
-    chunk_size=250,
-    chunk_overlap=50,
+    chunk_size=600,
+    chunk_overlap=100,
     length_function=len,
     is_separator_regex=False,
 )
