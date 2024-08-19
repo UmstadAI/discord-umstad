@@ -1,6 +1,9 @@
+import os
 import aiohttp
 import discord
 from discord import app_commands
+from openai import OpenAI
+from pinecone import Pinecone
 
 from config import (
     SEARCHER_API_ENDPOINT,
@@ -12,6 +15,9 @@ from config import (
     format_output,
 )
 
+pinecone_api_key = os.getenv("PINECONE_API_KEY") or "YOUR_API_KEY"
+pinecone_env = os.getenv("PINECONE_ENVIRONMENT") or "YOUR_ENV"
+
 intents = discord.Intents.default()
 intents.messages = True
 intents.message_content = True
@@ -19,6 +25,14 @@ intents.guilds = True
 
 client = discord.Client(intents=intents)
 tree = app_commands.CommandTree(client)
+
+openai = OpenAI(api_key=API_KEY)
+pc = Pinecone(api_key=pinecone_api_key)
+
+index_name = "zkappumstad"
+model_name = "text-embedding-3-small"
+
+index = pc.Index(index_name)
 
 
 @client.event
@@ -28,6 +42,8 @@ async def on_ready():
 
 
 processing_users = set()
+
+SCORE = 0.25
 
 
 @client.event
@@ -46,30 +62,48 @@ async def on_message(message):
         processing_users.add(user_id)
 
         try:
-            async with aiohttp.ClientSession() as session:
-                async with session.post(
-                    SEARCHER_API_ENDPOINT,
-                    json={
-                        "message": SEARCHER_MESSAGE_TEMPLATE + message.content,
-                        "previewToken": API_KEY,
-                        "authToken": AUTH_TOKEN,
-                    },
-                ) as response:
-                    response_content = await response.text()
-                    
-                    lines = response_content.split('\n')
-                    message_buffer = ""
-                    
-                    for line in lines:
-                        if len(message_buffer) + len(line) + 1 > 2000:
-                            await message.channel.send(format_output(message_buffer))
-                            message_buffer = line + "\n"
-                        else:
-                            message_buffer += line + "\n"
-                    
-                    if message_buffer:
-                        await message.channel.send(format_output(message_buffer))
+            message_text = message.content
+            res = openai.embeddings.create(input=[message_text], model=model_name)
 
+            embedding_res = res.data[0].embedding
+
+            response = index.query(
+                vector=embedding_res,
+                top_k=5,
+                filter={"vector_type": {"$eq": "demo-search"},},
+                include_values=True,
+                include_metadata=True,
+            )
+
+            results = []
+            for index, match in enumerate(response.matches, 1):
+                if (match.score or 1) > SCORE:
+                    metadata = match.metadata
+                    title = metadata.get("title")
+                    message_id = metadata.get("message_id") if metadata.get("message_id") else None
+                    thread_link = metadata.get("thread_link")
+                    message_link = metadata.get("message_link")
+
+                    result = f"**{index}. Thread Title:** {title}\n"
+                    result += f"◦ **Thread ID:** {message_id}\n"
+                    result += f"◦ **Thread Link:** [Link]({thread_link})"
+                    if message_id != "N/A":
+                        result += f"\n◦ **Message Link:** [Link]({message_link})"
+                    results.append(result)
+
+            print(results)
+            message_buffer = ""
+
+            for result in results:
+                line = result + "\n\n"
+                if len(message_buffer) + len(line) > 2000:
+                    await message.channel.send(message_buffer)
+                    message_buffer = line
+                else:
+                    message_buffer += line
+
+            if message_buffer:
+                await message.channel.send(message_buffer)
         finally:
             processing_users.remove(user_id)
 

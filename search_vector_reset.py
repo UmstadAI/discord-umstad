@@ -17,14 +17,16 @@ dimensions = 1536
 random_vector = np.random.rand(dimensions).tolist()
 RESET_TYPE = "demo-search"
 
-query_response = index.query(vector=random_vector, filter={"vector_type": RESET_TYPE}, top_k=9999)
+query_response = index.query(
+    vector=random_vector, filter={"vector_type": RESET_TYPE}, top_k=99999
+)
 
 matches = query_response["matches"]
 ids = [i["id"] for i in matches]
 
 batch_size = 1000
 for i in range(0, len(ids), batch_size):
-    batch_ids = ids[i:i + batch_size]
+    batch_ids = ids[i : i + batch_size]
     delete_response = index.delete(ids=batch_ids)
     print(f"Deleted {len(batch_ids)} vectors in this batch")
 

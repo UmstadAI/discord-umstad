@@ -33,6 +33,7 @@ from langchain_text_splitters import RecursiveCharacterTextSplitter
 
 text_splitter = SemanticChunker(OpenAIEmbeddings())
 
+
 def chunk_messages(messages):
     chunks = []
 
@@ -41,6 +42,7 @@ def chunk_messages(messages):
         chunks.append(docs[i].page_content)
 
     return chunks
+
 
 def process(payload):
     global counter
@@ -66,9 +68,9 @@ def process(payload):
         vector_type = DEMO_VECTOR_TYPE
     else:
         vector_type = VECTOR_TYPE
-    
+
     message_chunks = chunk_messages(messages)
-    
+
     for chunk in message_chunks:
         embedding_response = client.embeddings.create(
             input=title + " " + chunk, model=model_name
@@ -95,6 +97,7 @@ def process(payload):
         counter += 1
 
     return True
+
 
 with open("payloads.json", "r") as file:
     data = json.load(file)
