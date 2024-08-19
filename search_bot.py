@@ -76,7 +76,7 @@ async def on_message(message):
             )
 
             results = []
-            for index, match in enumerate(response.matches, 1):
+            for i, match in enumerate(response.matches, 1):
                 if (match.score or 1) > SCORE:
                     metadata = match.metadata
                     title = metadata.get("title")
@@ -84,11 +84,10 @@ async def on_message(message):
                     thread_link = metadata.get("thread_link")
                     message_link = metadata.get("message_link")
 
-                    result = f"**{index}. Thread Title:** {title}\n"
-                    result += f"◦ **Thread ID:** {message_id}\n"
-                    result += f"◦ **Thread Link:** [Link]({thread_link})"
-                    if message_id != "N/A":
-                        result += f"\n◦ **Message Link:** [Link]({message_link})"
+                    result = f"**{i}. {title}**\n"
+                    result += f"◦ **Thread Link:** ({thread_link})"
+                    if message_id != None:
+                        result += f"\n◦ **Message Link:** ({message_link})"
                     results.append(result)
 
             print(results)
