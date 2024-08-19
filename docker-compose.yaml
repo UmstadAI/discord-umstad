@@ -1,0 +1,12 @@
+version: "3.10"
+
+services:
+  bot:
+    build: .
+    command: [ "python", "search_bot.py" ]
+    environment:
+      - DISCORD_TOKEN=your_discord_token
+      - FORUM_CHANNEL_ID=forum_channel_id
+      - OPENAI_API_KEY=your_openai_api_key
+      - PINECONE_API_KEY=pinecone_api_key
+      - PINECONE_ENVIRONMENT=pinecone_environment

@@ -42,6 +42,24 @@ Discord bot must have write and read permissions.
 It is an AI Search Engine, which gets threads from Pinecone Vector DB which are uploaded by thread uploader and lambda functions.
 Uses demo-search vector or search vector.
 
+##### How to Run
+1. Clone the repository and create .env file like [in there](#setup)
+2. Build Docker:
+```sh
+docker build -t search_umstad .
+```
+
+3. Stop and remove if it is working:
+```sh
+docker stop search_umstad_container
+docker rm search_umstad_container
+```
+
+3. Run the Docker Container:
+```sh
+docker run --name search_umstad_container searchumstad
+```
+
 #### Thread Uploader Bot
 In ```thread_uploader/bot.py```,
 - Scans the forum channel 

@@ -18,6 +18,7 @@ from config import (
 )
 
 from dotenv import load_dotenv
+
 load_dotenv(override=True)
 
 from typing import AsyncIterator
@@ -31,9 +32,11 @@ client = discord.Client(intents=intents)
 
 logging.basicConfig(level=logging.INFO)
 
+
 async def fetch_and_process_threads(channel):
     async for thread in channel.archived_threads(limit=None):
         yield thread
+
 
 @client.event
 async def on_ready():
@@ -58,10 +61,14 @@ async def on_ready():
                 except Exception as e:
                     logging.error(f"Error processing thread {thread.id}: {e}")
 
-    tasks = [process_and_collect(thread) async for thread in fetch_and_process_threads(channel)]
+    tasks = [
+        process_and_collect(thread)
+        async for thread in fetch_and_process_threads(channel)
+    ]
     await asyncio.gather(*tasks)
 
     async with aiofiles.open("payloads.json", "w") as f:
         await f.write(json.dumps(payloads, indent=4))
+
 
 client.run(DISCORD_TOKEN)
