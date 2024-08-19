@@ -46,18 +46,18 @@ Uses demo-search vector or search vector.
 1. Clone the repository and create .env file like [in there](#setup)
 2. Build Docker:
 ```sh
-docker build -t searchumstad .
+docker build -t search_umstad .
 ```
 
 3. Stop and remove if it is working:
 ```sh
-docker stop searchumstad_container
-docker rm searchumstad_container
+docker stop search_umstad_container
+docker rm search_umstad_container
 ```
 
 3. Run the Docker Container:
 ```sh
-docker run --name searchumstad_container searchumstad
+docker run --name search_umstad_container searchumstad
 ```
 
 #### Thread Uploader Bot
