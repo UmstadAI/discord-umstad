@@ -11,7 +11,9 @@ services:
       - OPENAI_API_KEY=your_openai_api_key
       - PINECONE_API_KEY=pinecone_api_key
       - PINECONE_ENVIRONMENT=pinecone_environment
-    
+    networks:
+      - search_bot_network
+
   bot:
     build: .
     command: [ "python", "bot.py" ]
@@ -22,3 +24,9 @@ services:
       - OPENAI_API_KEY=your_openai_api_key
       - PINECONE_API_KEY=pinecone_api_key
       - PINECONE_ENVIRONMENT=pinecone_environment
+    networks:
+      - bot_network
+
+networks:
+  search_bot_network:
+  bot_network:
