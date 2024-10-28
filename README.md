@@ -76,16 +76,18 @@ Need 4 terminals, each of them requires activated env.
 ```source venv/bin/activate````
 
 In config.py
-```IS_THREAD_PROCESSOR_DONE = True```
+`IS_THREAD_PROCESSOR_DONE = True`
 
 1. In the root folder to run main bot:
-```python bot.py````
+`python bot.py`
 
 2. In the root folder to run thread searcher bot:
-```python search_bot.py````
+`python search_bot.py`
 
 3. In the thread_uploader folder to run thread scanner and uploader bot:
-```python thread_uploader/bot.py````
+`python thread_uploader/bot.py`
 
 4. In the lambda_functions folder to run helper api to process thread data:
-```cd lambda_functions && uvicorn main:app --host 127.0.0.1 --port 8000```
+```sh 
+cd lambda_functions && uvicorn main:app --host 127.0.0.1 --port 8000
+```
