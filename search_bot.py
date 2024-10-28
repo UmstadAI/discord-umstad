@@ -80,7 +80,11 @@ async def on_message(message):
                 if (match.score or 1) > SCORE:
                     metadata = match.metadata
                     title = metadata.get("title")
-                    message_id = metadata.get("message_id") if metadata.get("message_id") else None
+                    message_id = (
+                        metadata.get("message_id")
+                        if metadata.get("message_id")
+                        else None
+                    )
                     thread_link = metadata.get("thread_link")
                     message_link = metadata.get("message_link")
 
