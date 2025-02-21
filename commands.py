@@ -12,6 +12,7 @@ from config import (
 
 logger = logging.getLogger(__name__)
 
+
 class APIClient:
     def __init__(self, endpoint: str, api_key: str, auth_token: str):
         self.endpoint = endpoint
@@ -36,7 +37,7 @@ class APIClient:
                     "previewToken": self.api_key,
                     "authToken": self.auth_token,
                 },
-                timeout=30  # Add timeout
+                timeout=30,  # Add timeout
             ) as response:
                 if response.status != 200:
                     logger.error(f"API request failed with status {response.status}")
@@ -49,12 +50,13 @@ class APIClient:
             logger.error(f"Unexpected error during API request: {e}")
             return "An unexpected error occurred."
 
+
 async def handle_command(message):
     try:
         if not message.content.startswith(COMMAND_PREFIX):
             return
 
-        command_body = message.content[len(COMMAND_PREFIX):].strip()
+        command_body = message.content[len(COMMAND_PREFIX) :].strip()
         command, *args = command_body.split(" ")
 
         if command != COMMAND:
@@ -67,9 +69,13 @@ async def handle_command(message):
 
     except Exception as e:
         logger.error(f"Error handling command: {e}")
-        await message.channel.send("Sorry, something went wrong while processing your command.")
+        await message.channel.send(
+            "Sorry, something went wrong while processing your command."
+        )
+
 
 SLASH_PROMPT = "You see discord chat history, understand the problem and answer it. MAX 1500 Character"
+
 
 async def handle_slash_command(msg: str, messages: List[Dict[str, str]]) -> str:
     try:

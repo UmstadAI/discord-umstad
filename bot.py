@@ -9,12 +9,12 @@ from discord import app_commands
 
 # Configure logging
 logging.basicConfig(
-    level=logging.INFO,
-    format='%(asctime)s - %(name)s - %(levelname)s - %(message)s'
+    level=logging.INFO, format="%(asctime)s - %(name)s - %(levelname)s - %(message)s"
 )
 logger = logging.getLogger(__name__)
 
 load_dotenv(override=True)
+
 
 class UmstadBot:
     def __init__(self):
@@ -41,7 +41,9 @@ class UmstadBot:
             description="Call umstad Command",
             guild=discord.Object(id=GUILD_ID),
         )
-        async def on_command(interaction: discord.Interaction, msg: str, message_number: int):
+        async def on_command(
+            interaction: discord.Interaction, msg: str, message_number: int
+        ):
             try:
                 await interaction.response.defer()
                 channel = interaction.channel
@@ -59,7 +61,9 @@ class UmstadBot:
                 await interaction.followup.send(response)
             except Exception as e:
                 logger.error(f"Error handling slash command: {e}")
-                await interaction.followup.send("An error occurred while processing your command")
+                await interaction.followup.send(
+                    "An error occurred while processing your command"
+                )
 
         @self.client.event
         async def on_message(message):
@@ -84,6 +88,7 @@ class UmstadBot:
             self.client.run(DISCORD_TOKEN)
         except Exception as e:
             logger.critical(f"Failed to start bot: {e}")
+
 
 if __name__ == "__main__":
     bot = UmstadBot()
