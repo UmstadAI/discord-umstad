@@ -10,3 +10,14 @@ services:
       - OPENAI_API_KEY=your_openai_api_key
       - PINECONE_API_KEY=pinecone_api_key
       - PINECONE_ENVIRONMENT=pinecone_environment
+      
+  summary-bot:
+    build: .
+    command: [ "python", "summary_bot.py" ]
+    environment:
+      - DISCORD_TOKEN=your_discord_token
+      - OPENAI_API_KEY=your_openai_api_key
+      - SUMMARY_CHANNEL_IDS=your_channel_ids
+      - SUMMARY_OUTPUT_CHANNEL_ID=your_output_channel_id
+      - SUMMARY_TIME=08:00
+      - SUMMARY_LOOKBACK_HOURS=24

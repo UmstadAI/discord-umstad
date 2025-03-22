@@ -71,6 +71,37 @@ In ```thread_uploader/bot.py```,
 In ```thread_uploader/archived_getter.py``` and ```archived_uploader.py```
 - Gets archived threads and export them as ```payloads.json``` process and upload them to vector db.
 
+#### Summary Bot
+In `summary_bot.py` in the root folder:
+- Monitors specified Discord channels daily
+- Collects messages from the configured time period (default: last 24 hours)
+- Uses OpenAI to generate concise summaries of conversations
+- Posts formatted summaries to a designated output channel
+- Runs automatically at a configured time each day (default: 8:00 AM)
+
+##### Configuration 
+Add the following to your `.env` file:
+```
+# Summary Bot Configuration
+SUMMARY_BOT_DISCORD_TOKEN=your_discord_token       # Can use same token as other bots
+SUMMARY_CHANNEL_IDS=channel_id1,channel_id2        # Comma-separated list of channel IDs to summarize
+SUMMARY_OUTPUT_CHANNEL_ID=output_channel_id        # Channel where summaries will be posted
+SUMMARY_TIME=08:00                                 # Time to run daily (24-hour format)
+SUMMARY_LOOKBACK_HOURS=24                          # How many hours of messages to summarize
+```
+
+##### How to Run
+Run the Summary Bot:
+```python summary_bot.py```
+
+For testing the summary functionality without waiting for the scheduled time:
+```python test_summary.py```
+
+To run with Docker:
+```sh
+docker-compose up summary-bot
+```
+
 ## How To Run
 
 Need 4 terminals, each of them requires activated env.

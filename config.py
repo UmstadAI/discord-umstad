@@ -39,6 +39,12 @@ If you can't fetch data from demo search tool. Please do not send unrelated cont
 Your message must not contain more than 1500 Character.
 """
 
+# Summary Bot Configuration
+SUMMARY_BOT_DISCORD_TOKEN = os.getenv("SUMMARY_BOT_DISCORD_TOKEN", DISCORD_TOKEN)
+SUMMARY_CHANNEL_IDS = [int(ch.strip()) for ch in os.getenv("SUMMARY_CHANNEL_IDS", "").split(",") if ch.strip()]
+SUMMARY_OUTPUT_CHANNEL_ID = int(os.getenv("SUMMARY_OUTPUT_CHANNEL_ID", 0))
+SUMMARY_TIME = os.getenv("SUMMARY_TIME", "00:00")  # Time in 24-hour format (HH:MM)
+SUMMARY_LOOKBACK_HOURS = int(os.getenv("SUMMARY_LOOKBACK_HOURS", 24))  # Look back period in hours
 
 def format_output(output):
     if not IS_TURBO:
